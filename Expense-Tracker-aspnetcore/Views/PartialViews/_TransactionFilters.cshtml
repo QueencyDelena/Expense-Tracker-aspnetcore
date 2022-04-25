@@ -1,0 +1,50 @@
+﻿@model Expense_Tracker_aspnetcore.Models.TransactionViewModel;
+@{
+    var Accounts = Model.Accounts;
+}
+
+<div class="container">
+    <div class="row p-3">
+        <h5 class="mt-2 mb-4">Filters</h5>
+    </div>
+
+    <form asp-action="Index" method="get">
+        <div class="container">
+            <div class="row">
+                <input class="col" type="date" name="DateFrom" value=@Convert.ToDateTime(ViewData["DateFrom"]).ToString("yyyy-MM-dd") />
+                <input class="col" type="date" name="DateTo" value=@Convert.ToDateTime(ViewData["DateTo"]).ToString("yyyy-MM-dd") />
+            </div>
+        </div>
+        <div class="row mb-3 mt-3">
+            <table>
+                <tr>
+                    <td class="col-1"><input type="checkbox" checked id="chk-all-accounts" /> </td>
+                    <td class="col">By Account</td>
+                </tr>
+                <tbody>
+                    @foreach (var account in Accounts)
+                    {
+                        <tr class="">
+                            <td class="col-1"><input type="checkbox" value="" class="chk-accounts" id="@account.AccountID" /> </td>
+                            <td class="col ">@account.Name</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="row"><button type="submit" value="Filter" class="btn btn-dark fa-solid fa-chart-pie" /></div>
+    </form>
+</div>
+<script>
+    //$(document).ready(function () {
+    //    $("#chk-all-accounts").click(function () {
+    //        //$('.chk-accounts').not(this).prop('checked', this.checked);
+    //        $('.chk-accounts').prop('checked', this.checked);
+    //    });
+    //});
+    $(document).ready(function () {
+        if ($('#chk-all-accounts').is(':checked') == true) {
+            $('.chk-accounts').prop('checked', this.checked);
+        };
+    });
+</script>
