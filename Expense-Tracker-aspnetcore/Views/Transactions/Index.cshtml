@@ -31,56 +31,84 @@
             </div>
         </div>
 
-        <div class="shadow col-3 mr-2 mt-3 bg-white rounded d-lg-none" id="collapseExample">
-            @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
+        <div class="row">
+            <div class="shadow col-3 mr-2 mt-3 bg-white rounded d-lg-none" id="collapseExample">
+                @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
+            </div>
         </div>
 
-        <table class="table table-borderless">
-            <thead class="bg-dark text-white">
-                <tr>
-                    <th colspan="2">
-                        <input type="checkbox" name="selectAll" value="" />
-                    </th>
-                </tr>
-            </thead>
-            <tbody class="bg-white">
-                @{
-                    DateTime date = DateTime.Today.Date;
+        <div class="row">
+            <table class="table table-borderless">
+                <thead class="bg-dark text-white">
+                    <tr>
+                        <th colspan="3">
+                            <input type="checkbox" name="selectAll" value="" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white">
+                    @{
+                        DateTime date = DateTime.Today.Date;
 
-                    int ctr = 0;
-                    foreach (var item in Transactions)
-                    {
-                        ctr++;
-                        if (ctr == 1)
-                            date = Transactions.FirstOrDefault().PostDate.Date;
-
-                        if (date != item.PostDate.Date || ctr == 1)
+                        int ctr = 0;
+                        foreach (var item in Transactions)
                         {
-                            <tr class="table-header">
-                                <td colspan="5">
-                                    <b>@item.PostDate.ToString("MMMM d")</b>
+                            ctr++;
+                            if (ctr == 1)
+                                date = Transactions.FirstOrDefault().PostDate.Date;
+
+                            if (date != item.PostDate.Date || ctr == 1)
+                            {
+                                <tr class="table-header">
+                                    <td colspan="3">
+                                        <b>@item.PostDate.ToString("MMMM d")</b>
+                                    </td>
+                                </tr>
+                                date = item.PostDate.Date;
+                            }
+
+                            <tr data-id="@item.TransactionID" class="transaction">
+                                <td class="align-middle" colspan="1">
+                                    <input type="checkbox" name="name" value="" />
+                                </td>
+                                <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
+                                    <h6 colspan="1" class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
+                                    <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
+                                </td>
+                                <td class="align-middle edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
+                                    <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>
+                                    <p class="p-0 m-0">@Html.DisplayFor(modelItem => item.Account.Name)</p>
                                 </td>
                             </tr>
-                            date = item.PostDate.Date;
                         }
-
-                        <tr data-id="@item.TransactionID" class="rounded border p-2 mt-2 mb-2 row-data transaction">
-                            <th class="" scope="col">
-                                <input type="checkbox" name="name" value="" />
-                            </th>
-                            <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                <h6>@Html.DisplayFor(modelItem => item.Name)</h6>
-                                <p class="">@Html.DisplayFor(modelItem => item.Category.Name)</p>
-                            </td>
-                            <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                <h6>@Html.DisplayFor(modelItem => item.Amount)</h6>
-                                <p>@Html.DisplayFor(modelItem => item.Account.Name)</p>
-                            </td>
-                        </tr>
                     }
-                }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
+
+        @{
+            var prevDisabled = !Transactions.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Transactions.HasNextPage ? "disabled" : "";
+        }
+    <div class="row">
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Transactions.PageIndex - 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @prevDisabled">
+            Previous
+        </a>
+        <a asp-action="Index"
+           asp-route-sortOrder="@ViewData["CurrentSort"]"
+           asp-route-pageNumber="@(Transactions.PageIndex + 1)"
+           asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           class="btn btn-default @nextDisabled">
+            Next
+        </a>
+    </div>
+
+
+
     </div>
 </div>
 
@@ -123,26 +151,3 @@
     });
   
 </script>
-
-@{
-    var prevDisabled = !Transactions.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Transactions.HasNextPage ? "disabled" : "";
-}
-
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Transactions.PageIndex - 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @prevDisabled">
-    Previous
-</a>
-<a asp-action="Index"
-   asp-route-sortOrder="@ViewData["CurrentSort"]"
-   asp-route-pageNumber="@(Transactions.PageIndex + 1)"
-   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-   class="btn btn-default @nextDisabled">
-    Next
-</a>
-
-
-
