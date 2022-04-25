@@ -38,13 +38,9 @@
         <table class="table table-borderless">
             <thead class="bg-dark text-white">
                 <tr>
-                    <th scope="col">
+                    <th colspan="2">
                         <input type="checkbox" name="selectAll" value="" />
                     </th>
-                    <th scope="col">Description</th>
-                    <th scope="col">Account</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Amount</th>
                 </tr>
             </thead>
             <tbody class="bg-white">
@@ -68,22 +64,17 @@
                             date = item.PostDate.Date;
                         }
 
-                        <tr data-id="@item.TransactionID" class="rounded border p-2 mt-2 mb-2 row-data">
+                        <tr data-id="@item.TransactionID" class="rounded border p-2 mt-2 mb-2 row-data transaction">
                             <th class="" scope="col">
                                 <input type="checkbox" name="name" value="" />
                             </th>
                             <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                @Html.DisplayFor(modelItem => item.PostDate)
-                                @Html.DisplayFor(modelItem => item.Name)
+                                <h6>@Html.DisplayFor(modelItem => item.Name)</h6>
+                                <p class="">@Html.DisplayFor(modelItem => item.Category.Name)</p>
                             </td>
                             <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                @Html.DisplayFor(modelItem => item.Account.Name)
-                            </td>
-                            <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                @Html.DisplayFor(modelItem => item.Category.Name)
-                            </td>
-                            <td class="edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                @Html.DisplayFor(modelItem => item.Amount)
+                                <h6>@Html.DisplayFor(modelItem => item.Amount)</h6>
+                                <p>@Html.DisplayFor(modelItem => item.Account.Name)</p>
                             </td>
                         </tr>
                     }
