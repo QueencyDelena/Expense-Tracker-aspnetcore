@@ -9,30 +9,16 @@
     var Transactions = Model.Transactions;
 }
 
-<div class="row">
 
+<div class="d-flex" id="transaction-filter">
     @* FILTER *@
-    <div class="col-3 mr-2 mt-3 collapse d-lg-block transaction-filter">
+    <div class="flex-shrink-1 mr-5 mt-3 mb-5 transaction-filter d-lg-block" id="collapseFilter">
         @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
     </div>
 
 
-    <div class="col ml-4 mt-3">
-
-
+    <div class="flex-grow-1 ml-5 mr-5 mb-5 mt-3">
         <div class="row ">
-            @* SEARCH BAR *@
-            <div class="col d-flex m-0">
-                <form asp-action="Index" method="get">
-                    <div class="input-group input-group-sm">
-                        <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search..." />
-                        <div class="input-group-append">
-                            <button type="submit" value="Search" class="btn btn-dark fa-solid fa-magnifying-glass" />
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             @* CREATE TRANSACTION *@
             <div class="col d-flex m--0 flex-row-reverse">
                 <button class="btn btn-dark btn-sm create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
@@ -40,25 +26,19 @@
             </div>
         </div>
 
-        @* FILTER *@
-        <div class="row">
-            <div class="col-3 m-4 transaction-filter d-lg-none" id="collapseFilter">
-                @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
-            </div>
-        </div>
-
-
         @* TRANSACTION TABLE *@
         <div class="row">
             <table class="table table-borderless transactions-table">
                 <thead class="bg-dark text-white">
-                    <tr class=" p-0 m-0">
-                        <th colspan="3">
+                    <tr>
+                        <th class="p-1 align-middle text-center">
                             <input type="checkbox" id="chk-all-transactions" value="" />
                         </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
-                <tbody >
+                <tbody>
                     @{
                         DateTime date = DateTime.Today.Date;
 
@@ -87,7 +67,7 @@
                                     <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
                                     <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
                                 </td>
-                                <td class="pt-2 pb-2 text-right" >
+                                <td class="pt-2 pb-2 text-right">
                                     <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>
                                     <p class="p-0 m-0">@Html.DisplayFor(modelItem => item.Account.Name)</p>
                                 </td>
@@ -146,14 +126,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         $('.edit-transaction').click(function () {
-           
-                var url = "/Transactions/Edit"; // the url to the controller
-                var id = $(this).attr('data-id'); // the id that's given to each button in the list
-                $.get(url + '/' + id, function (data) {
-                    $('#edit-transaction-container').html(data);
-                    $('#edit-transaction').modal('show');
-                });
-            
+            var url = "/Transactions/Edit"; // the url to the controller
+            var id = $(this).attr('data-id'); // the id that's given to each button in the list
+            $.get(url + '/' + id, function (data) {
+                $('#edit-transaction-container').html(data);
+                $('#edit-transaction').modal('show');
+            });
+
         });
     });
 

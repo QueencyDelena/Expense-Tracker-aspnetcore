@@ -1,8 +1,15 @@
-﻿
+﻿$("#transaction-type").on("click", function () {
+    alert('here');
+    $("a").find(".active").removeClass("active");
+    $(this).addClass("active");
+});
+
+
 $(".nav .nav-link").on("click", function () {
     $(".nav").find(".active").removeClass("active");
     $(this).addClass("active");
 });
+
 if (document.getElementById("Dashboard") != null) {
     loadDashboardSript();
 }

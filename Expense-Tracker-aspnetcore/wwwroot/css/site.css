@@ -144,3 +144,21 @@ a {
 
  /* Custom checkbox
  -------------------------*/
+
+/* Create transaction style
+ -------------------------*/
+
+#transaction-type a:link {
+    padding: 5px;
+    border: 1px solid black;
+    background-color: gray;
+}
+#transaction-type a:active {
+    background-color: darkgray;
+}
+#transaction-type a:first-child {
+    border-radius: 5px 0 0 5px;
+}
+#transaction-type a:last-child {
+    border-radius: 0 5px 5px 0;
+}
