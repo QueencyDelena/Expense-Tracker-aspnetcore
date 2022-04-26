@@ -4,18 +4,25 @@
     var Categories = Model.Categories;
 }
 
-<div class="container">
+<div class="container transaction-filter">
+
+    @* HEADER *@
     <div class="row p-3">
         <h5 class="mt-2 mb-4">Filters</h5>
     </div>
 
+
+
     <form asp-action="Index" method="get">
+        @* DATE FILTER *@
         <div class="container">
             <div class="row">
                 <input class="col" type="date" name="DateFrom" value=@Convert.ToDateTime(ViewData["DateFrom"]).ToString("yyyy-MM-dd") />
                 <input class="col" type="date" name="DateTo" value=@Convert.ToDateTime(ViewData["DateTo"]).ToString("yyyy-MM-dd") />
             </div>
         </div>
+
+        @* ACCOUNT FILTER *@
         <div class="row mb-4 mt-4">
             <table>
                 <tr>
@@ -33,6 +40,8 @@
                 </tbody>
             </table>
         </div>
+
+        @* CATEGORY FILTER *@
         <div class="row mb-4 mt-4">
             <table>
                 <tr class="border-bottom">
@@ -50,11 +59,14 @@
                 </tbody>
             </table>
         </div>
+
+        @* SUBMIT *@
         <div class="row">
             <div class="col"><button type="submit" value="Filter" class="btn btn-dark fa-solid fa-chart-pie" >Filter</button></div>
         </div>
     </form>
 </div>
+
 <script>
     $(document).ready(function () {
         $("#chk-all-accounts").click(function () {

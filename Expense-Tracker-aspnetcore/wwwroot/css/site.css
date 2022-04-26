@@ -80,7 +80,7 @@ body {
 
 .table {
     border-collapse: separate;
-    border-spacing: 0 10px;
+    border-spacing: 0 7px;
 }
 
 .table-header {
@@ -100,9 +100,7 @@ tr table-header:hover {
     background-color: none;*/ /* or whatever color you want */
 /*}*/
 
-/*a.nav-link {
-    color: #cbbde2;
-}*/
+
 /*.navbar {
     background-color: #563d7c;
 }*/
@@ -117,6 +115,10 @@ tr.transaction {
     background-color: #FFA347;
     color: #fff8f0;
 }
+a {
+    color: #fff8f0;
+}
+
 
 .dark-bg{
 
