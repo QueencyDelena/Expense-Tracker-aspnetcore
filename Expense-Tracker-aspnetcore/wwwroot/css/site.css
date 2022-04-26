@@ -78,8 +78,15 @@ body {
     height: 10em;
 }
 
-.table {
-    border-collapse: separate;
+
+/* Transactions Table 
+-------------------------------------*/
+
+.transactions-table thead {
+    height: 1vmax;
+}
+.transactions-table {
+    border-collapse: separate !important;
     border-spacing: 0 7px;
 }
 
@@ -88,38 +95,52 @@ body {
     background-color: #edf5e1;
 }
 
-tr table-header:hover {
-    background-color: pink;
+.transactions-table .transaction {
+    font-size: 2.1vmin;
+    background-color: #FDFDFD;
+    box-shadow: #D0D0D0 2px 2px 3px;
+    border-radius: 10px;
+}
+
+
+.transaction td:first-child {
+    border-radius: 5px 0 0 5px;
+    /*background-color: #FFA347;*/
+}
+
+.transaction td:last-child {
+    border-radius: 0 5px 5px 0;
 }
 
 #transaction-page {
     background-color: #edf5e1;
 }
 
-/*tbody tr:hover tr.table-header {
-    background-color: none;*/ /* or whatever color you want */
-/*}*/
 
 
-/*.navbar {
-    background-color: #563d7c;
-}*/
-tr.transaction {
-    font-size: 2.1vmin;
-    box-shadow: #D0D0D0 2px 2px 3px;
-    background-color: #FDFDFD;
-}
 
 
+/* Themes
+--------------------------------------*/
 .orange-theme, .nav-link, .navbar-brand {
     background-color: #FFA347;
     color: #fff8f0;
 }
+
 a {
     color: #fff8f0;
 }
 
 
-.dark-bg{
-
+.dark-bg {
 }
+
+.transaction-filter {
+    border-radius: 5px 5px;
+    background-color: #FDFDFD;
+    border: 1px solid black;
+}
+
+
+ /* Custom checkbox
+ -------------------------*/

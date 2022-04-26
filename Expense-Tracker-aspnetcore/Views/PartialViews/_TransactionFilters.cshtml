@@ -4,7 +4,7 @@
     var Categories = Model.Categories;
 }
 
-<div class="container transaction-filter">
+<div class="container">
 
     @* HEADER *@
     <div class="row p-3">
@@ -33,7 +33,9 @@
                     @foreach (var account in Accounts)
                     {
                         <tr class="">
-                            <td class="col-1"><input type="checkbox" checked value="" class="chk-accounts" id="@account.AccountID" /> </td>
+                            <td class="col-1 checkbox">
+                                <input type="checkbox" checked value="" class="chk-accounts" id="@account.AccountID" />
+                            </td>
                             <td class="col ">@account.Name</td>
                         </tr>
                     }
@@ -62,12 +64,13 @@
 
         @* SUBMIT *@
         <div class="row">
-            <div class="col"><button type="submit" value="Filter" class="btn btn-dark fa-solid fa-chart-pie" >Filter</button></div>
+            <div class="col"><button type="submit" value="Filter" class="btn btn-dark fa-solid fa-chart-pie">Filter</button></div>
         </div>
     </form>
 </div>
 
 <script>
+
     $(document).ready(function () {
         $("#chk-all-accounts").click(function () {
             //$('.chk-accounts').not(this).prop('checked', this.checked);
