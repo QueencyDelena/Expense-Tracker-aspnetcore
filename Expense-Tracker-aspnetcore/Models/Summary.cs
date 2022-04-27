@@ -18,6 +18,7 @@ namespace Expense_Tracker_aspnetcore.Models
         public DateTime? DateTo { get; set; }
 
         public string Key { get; set; }
-        public decimal Amount { get; set; }
+
+        public float Amount { get; set; }
     }
 }

@@ -42,9 +42,9 @@ namespace Expense_Tracker_aspnetcore.Data
 
             var transactions = new Transaction[]
             {
-            new Transaction{Name="Grocery", Amount=10.1m, PostDate=DateTime.Today, CategoryID = 1, AccountID = 1, UserID = 0},
+            new Transaction{Name="Grocery", Amount=10.1f, PostDate=DateTime.Today, CategoryID = 1, AccountID = 1, UserID = 0},
             new Transaction{Name="Food Panda",Amount=11,PostDate=DateTime.Today, CategoryID = 2, AccountID = 1, UserID = 0},
-            new Transaction{Name="Grab Food",Amount=20.5m,PostDate=DateTime.Today, CategoryID = 3, AccountID = 1, UserID = 0},
+            new Transaction{Name="Grab Food",Amount=20.5f,PostDate=DateTime.Today, CategoryID = 3, AccountID = 1, UserID = 0},
             new Transaction{Name="Google Play Store",Amount=10,PostDate=DateTime.Today, CategoryID = 2, AccountID = 1, UserID = 0}
             };
             foreach (Transaction t in transactions)

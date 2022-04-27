@@ -253,7 +253,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
                     "Delete failed. Try again, and if the problem persists " +
                     "see your system administrator.";
             }
-            return View(transaction);
+            return PartialView("~/Views/PartialViews/_DeleteTransaction.cshtml", transaction);
         }
 
         // POST: Transactions/Delete/5

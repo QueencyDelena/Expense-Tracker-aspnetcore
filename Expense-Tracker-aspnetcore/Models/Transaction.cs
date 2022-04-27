@@ -16,8 +16,8 @@ namespace Expense_Tracker_aspnetcore.Models
         public string Name { get; set; }
 
 
-        [Column(TypeName = "decimal(18,4)")]
-        public decimal Amount { get; set; } = 0;
+        [DataType(DataType.Currency)]
+        public float Amount { get; set; } = 0;
 
         [DataType(DataType.DateTime)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd HH:mm}", ApplyFormatInEditMode = true)]
