@@ -13,7 +13,7 @@ namespace Expense_Tracker_aspnetcore.Models
         public int TransactionID { get; set; }
 
 
-        public string Name { get; set; }
+        public string Name { get; set; } = "Unknown";
 
 
         [DataType(DataType.Currency)]
