@@ -8,8 +8,6 @@
 @{
     var Transactions = Model.Transactions;
 }
-
-
 <div class="d-flex" id="transaction-filter">
     @* FILTER *@
     <div class="flex-shrink-1 mr-5 mt-3 mb-5 transaction-filter d-lg-block" id="collapseFilter">
@@ -66,6 +64,10 @@
                                 <td class="pt-2 pb-2">
                                     <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
                                     <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
+                                </td>
+                                <td>
+                                    <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.PostDate)</p>
+                                    <p>@Html.DisplayFor(modelItem => item.TransactionType)</p>
                                 </td>
                                 <td class="pt-2 pb-2 text-right">
                                     <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>

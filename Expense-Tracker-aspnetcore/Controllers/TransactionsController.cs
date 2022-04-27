@@ -127,6 +127,12 @@ namespace Expense_Tracker_aspnetcore.Controllers
             ViewData["Account"] = new SelectList(_context.Accounts, "AccountID", "Name");
             ViewData["Category"] = new SelectList(_context.Categories, "CategoryID", "Name");
 
+            var transactionType = from Enums.TransactionType t in Enum.GetValues(typeof(Enums.TransactionType))
+                                  select new { ID = (int)t, Name = t.ToString() };
+
+            ViewData["TransactionType"] = new SelectList(transactionType, "Name", "Name", "Expense"); 
+
+
             return PartialView("~/Views/PartialViews/_CreateTransaction.cshtml");
             //return View();
         }
@@ -136,7 +142,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Amount,PostDate,Description,AccountID,CategoryID")] Transaction transaction)
+        public async Task<IActionResult> Create([Bind("Name,Amount,PostDate,Description,AccountID,CategoryID,TransactionType")] Transaction transaction)
         {
             try
             {
@@ -177,6 +183,12 @@ namespace Expense_Tracker_aspnetcore.Controllers
             ViewData["Account"] = new SelectList(_context.Accounts, "AccountID", "Name", transaction.AccountID);
             ViewData["Category"] = new SelectList(_context.Categories, "CategoryID", "Name", transaction.CategoryID);
 
+            var transactionType = from Enums.TransactionType t in Enum.GetValues(typeof(Enums.TransactionType))
+                                  select new { ID = (int)t, Name = t.ToString() };
+
+            ViewData["TransactionType"] = new SelectList(transactionType, "Name", "Name", transaction.TransactionType);
+
+
             return PartialView("~/Views/PartialViews/_EditTransaction.cshtml", transaction);
             //return View(transaction);
         }
@@ -186,7 +198,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("TransactionID,Name,Amount,PostDate,Description,AccountID,CategoryID")] Transaction transaction)
+        public async Task<IActionResult> Edit(int id, [Bind("TransactionID,Name,Amount,PostDate,Description,AccountID,CategoryID,TransactionType")] Transaction transaction)
         {
             if (id != transaction.TransactionID)
             {

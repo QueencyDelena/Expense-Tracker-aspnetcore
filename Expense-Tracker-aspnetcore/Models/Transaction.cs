@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Expense_Tracker_aspnetcore.Models
-{
+{   
     public class Transaction
     {
         public int UserID { get; set; }
@@ -31,6 +31,6 @@ namespace Expense_Tracker_aspnetcore.Models
         public Account Account { get; set; }
         public Category Category { get; set; }
 
-
+        public string TransactionType { get; set; } = Enums.TransactionType.Expense.ToString();
     }
 }

@@ -9,12 +9,27 @@
 <div class="modal-body">
     <div class="container" id="create-transaction-form">
         <form asp-action="Create" id="id-of-the-form">
-            <div class="d-flex flex-row justify-content-center mt-2" id="transaction-type">
-                <a class="" href="#">Expense</a>
-                <a class="" href="#">Income</a>
-                <a class="" href="#">Transafer</a>
+            <div class="form-group">
+                <div class="d-flex flex-column">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        @foreach (var x in ViewBag.TransactionType)
+                        {
+                            if (x.Selected)
+                            {
+                                <label class="btn btn-outline-primary active">
+                                    <input type="radio" asp-for="TransactionType" value=@x.Value checked> @x.Value
+                                </label>
+                            }
+                            else
+                            {
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" asp-for="TransactionType" value=@x.Value> @x.Value
+                                </label>
+                            }
+                        }
+                    </div>
+                </div>
             </div>
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
@@ -27,7 +42,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="PostDate" class="control-label"></label>
-                <input asp-for="PostDate" class="form-control" value=@DateTime.Today.ToString("yyyy-MM-ddThh:mm") />
+                @*<input asp-for="PostDate" class="form-control" value=@DateTime.Now.ToString("MMM dd, yyyy") type="text" id="datepicker">*@
+                <input asp-for="PostDate" class="form-control" value=@DateTime.Now.ToString("yyyy-MM-ddThh:mm") />
                 <span asp-validation-for="PostDate" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -49,3 +65,9 @@
         </form>
     </div>
 </div>
+<script>
+    $(".transaction-type-select option").on("click", function () {
+        $(".transaction-type-select option").find(".selected").removeClass("selected");
+        $(this).addClass("selected");
+    });
+</script>

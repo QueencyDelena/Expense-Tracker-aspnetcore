@@ -12,10 +12,28 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="TransactionID" />
             <div class="form-group">
-                <i class="fa-solid fa-file-invoice-dollar p-1">
-                </i>
+                <div class="d-flex flex-column">
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        @foreach (var x in ViewBag.TransactionType)
+                        {
+                            if (x.Selected)
+                            {
+                                <label class="btn btn-outline-primary active">
+                                    <input type="radio" asp-for="TransactionType" value=@x.Value checked> @x.Value
+                                </label>
+                            }
+                            else
+                            {
+                                <label class="btn btn-outline-primary">
+                                    <input type="radio" asp-for="TransactionType" value=@x.Value> @x.Value
+                                </label>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 <input asp-for="Name" class="form-control" placeholder="Payee or item " />
-
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,12 +42,8 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                @*<label asp-for="PostDate" class="control-label"></label>
-                    <input asp-for="PostDate" class="form-control" asp-format="{0:yyyy-MM-dd Thh:mm}" />
-                    <span asp-validation-for="PostDate" class="text-danger"></span>*@
                 <label asp-for="PostDate" class="control-label"></label>
-                <input asp-for="PostDate" class="form-control" type="text" value=@Model.PostDate.ToString("d MMMM yyyy") />
-                <input asp-for="PostDate" class="form-control" type="text" value=@Model.PostDate.ToString("hh:mm tt") />
+                <input asp-for="PostDate" class="form-control" type="text" value=@Model.PostDate.ToString("d MMMM yyyy hh:mm tt") />
                 <span asp-validation-for="PostDate" class="text-danger"></span>
             </div>
             <div class="form-group">
