@@ -1,0 +1,96 @@
+﻿@model List<Expense_Tracker_aspnetcore.Models.Transaction>
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+@{
+    var trxCount = Model.Count;
+    var ids = new List<int>();
+
+    <h3>
+        Are you sure you want to delete
+
+        @if (trxCount != 1)
+        {
+            <span> @trxCount items?</span>
+        }
+        else
+        {
+            <span> this?</span>
+        }
+
+    </h3>
+
+
+    if (trxCount == 1)
+    {
+        var first = Model.FirstOrDefault();
+
+        ids.Add(first.TransactionID);
+
+        <h4>Transaction</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => first.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => first.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => first.Amount)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => first.Amount)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => first.PostDate)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => first.PostDate)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => first.Description)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => first.Description)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => first.Account)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => first.Account.AccountID)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => first.Category)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => first.Category.CategoryID)
+            </dd>
+        </dl>
+    }
+
+    <button value="Delete" class="btn btn-danger confirm-delete" >Delete</button>
+}
+<script>
+
+    $(document).ready(function () {
+        $(".confirm-delete").click(function () {
+            var idList = new Array();
+            $('.chk-transactions').each(function () {
+                if ($(this).is(":checked")) {
+                    idList.push($(this).parent().parent().attr('data-id'));
+                }
+            });
+
+            jQuery.ajaxSettings.traditional = true
+            $.post("/Transactions/Delete", { ids: idList }, function (data) {
+              
+            });
+        });
+    });
+
+</script>

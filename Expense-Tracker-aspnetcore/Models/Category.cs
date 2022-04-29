@@ -12,5 +12,7 @@ namespace Expense_Tracker_aspnetcore.Models
         public int CategoryID { get; set; }
 
         public string Name { get; set; }
+
+        public bool Selected { get; set; } = true;
     }
 }

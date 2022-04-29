@@ -8,143 +8,151 @@
 @{
     var Transactions = Model.Transactions;
 }
-<div class="d-flex" id="transaction-filter">
-    @* FILTER *@
-    <div class="flex-shrink-1 mr-5 mt-3 mb-5 transaction-filter d-lg-block" id="collapseFilter">
-        @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
-    </div>
-
-
-    <div class="flex-grow-1 ml-5 mr-5 mb-5 mt-3">
-        <div class="row ">
-            @* CREATE TRANSACTION *@
-            <div class="col d-flex m--0 flex-row-reverse">
-                <button class="btn btn-dark btn-sm create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
-                <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
-            </div>
+<div id="transaction-page">
+    <div class="d-flex" id="transaction-filter">
+        @* FILTER *@
+        <div class="flex-shrink-1 mr-5 mt-3 mb-5 transaction-filter d-lg-block" id="collapseFilter">
+            @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
         </div>
 
-        @* TRANSACTION TABLE *@
-        <div class="row">
-            <table class="table table-borderless transactions-table">
-                <thead class="bg-dark text-white">
-                    <tr>
-                        <th class="p-1 align-middle text-center">
-                            <input type="checkbox" id="chk-all-transactions" value="" />
-                        </th>
-                        <th colspan="3">
-                            <form asp-action="Delete">
-                                <input type="submit" value="Delete" class="btn btn-danger p-1" />
-                            </form>
-                        </th>
 
-                    </tr>
-                </thead>
-                <tbody>
-                    @{
-                        DateTime date = DateTime.Today.Date;
+        <div class="flex-grow-1 ml-5 mr-5 mb-5 mt-3">
+            <div class="row ">
+                @* CREATE TRANSACTION *@
+                <div class="col d-flex m--0 flex-row-reverse">
+                    <button class="btn btn-dark btn-sm create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+                    <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
+                </div>
+            </div>
 
-                        int ctr = 0;
-                        foreach (var item in Transactions)
-                        {
-                            ctr++;
-                            if (ctr == 1)
-                                date = Transactions.FirstOrDefault().PostDate.Date;
+            @* TRANSACTION TABLE *@
+            <div class="row">
+                <table class="table table-borderless transactions-table">
+                    <thead class="bg-dark text-white">
+                        <tr>
+                            <th class="p-1 align-middle text-center">
+                                <input type="checkbox" id="chk-all-transactions" value="" />
+                            </th>
+                            <th colspan="3">
+                                <button class="delete-selected-transactions btn button btn-danger p-1"> Delete </button>
+                            </th>
 
-                            if (date != item.PostDate.Date || ctr == 1)
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            DateTime date = DateTime.Today.Date;
+
+                            int ctr = 0;
+                            foreach (var item in Transactions)
                             {
-                                <tr class="table-header">
-                                    <td colspan="3">
-                                        <b>@item.PostDate.ToString("MMMM d, yyyy")</b>
+                                ctr++;
+                                if (ctr == 1)
+                                    date = Transactions.FirstOrDefault().PostDate.Date;
+
+                                if (date != item.PostDate.Date || ctr == 1)
+                                {
+                                    <tr class="table-header">
+                                        <td colspan="3">
+                                            <b>@item.PostDate.ToString("MMMM d, yyyy")</b>
+                                        </td>
+                                    </tr>
+                                    date = item.PostDate.Date;
+                                }
+
+                                <tr data-id="@item.TransactionID" class="transaction edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
+                                    <td class="align-middle p-0 m-0 text-center">
+                                        <input class="chk-transactions" type="checkbox" name="name" value="" />
+                                    </td>
+
+                                    <td class="pt-2 pb-2">
+                                        <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
+                                        <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
+                                    </td>
+                                    <td class="pt-2 pb-2">
+                                        <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.TransactionID)</h6>
+                                    </td>
+                                    <td class="pt-2 pb-2 text-right">
+                                        <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>
+                                        <p class="p-0 m-0">@Html.DisplayFor(modelItem => item.Account.Name)</p>
+                                    </td>
+                                    <td class="transaction-menu text-right">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa-solid fa-ellipsis-vertical p-1"></i>
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Edit <i class="fa fa-trash"></i></a>
+                                                <a class="dropdown-item delete-transaction">Delete <i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
-                                date = item.PostDate.Date;
                             }
-
-                            <tr data-id="@item.TransactionID" class="transaction edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                                <td class="align-middle p-0 m-0 text-center">
-                                    <input class="chk-transactions" type="checkbox" name="name" value="" />
-                                </td>
-
-                                <td class="pt-2 pb-2">
-                                    <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
-                                    <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
-                                </td>
-                                <td class="pt-2 pb-2 text-right">
-                                    <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>
-                                    <p class="p-0 m-0">@Html.DisplayFor(modelItem => item.Account.Name)</p>
-                                </td>
-                                <td class="transaction-menu text-right">
-                                    <div class="btn-group dropright">
-                                        <button type="button" class="btn p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis-vertical pr-1 pl-1"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
-                                            <a class="dropdown-item" href="#">Edit <i class="fa fa-trash"></i></a>
-                                            <a class="dropdown-item delete-transaction">Delete <i class="fa fa-trash"></i></a>
-                                        </div>
-                                    </div>
-                                </td>
-                            </tr>
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
+                    </tbody>
+                </table>
+            </div>
 
-        @{
-            var prevDisabled = !Transactions.HasPreviousPage ? "disabled" : "";
-            var nextDisabled = !Transactions.HasNextPage ? "disabled" : "";
-        }
-        <div class="row">
-            <a asp-action="Index"
-               asp-route-sortOrder="@ViewData["CurrentSort"]"
-               asp-route-pageNumber="@(Transactions.PageIndex - 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
-               class="btn btn-default @prevDisabled">
-                Previous
-            </a>
-            <a asp-action="Index"
-               asp-route-sortOrder="@ViewData["CurrentSort"]"
-               asp-route-pageNumber="@(Transactions.PageIndex + 1)"
-               asp-route-currentFilter="@ViewData["CurrentFilter"]"
-               class="btn btn-default @nextDisabled">
-                Next
-            </a>
-        </div>
-    </div>
-</div>
-
-
-@* MODAL *@
-<div class="modal fade" id="edit-transaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div id="edit-transaction-container"></div>
+            @{
+                var prevDisabled = !Transactions.HasPreviousPage ? "disabled" : "";
+                var nextDisabled = !Transactions.HasNextPage ? "disabled" : "";
+            }
+            <div class="row">
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Transactions.PageIndex - 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @prevDisabled">
+                    Previous
+                </a>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-pageNumber="@(Transactions.PageIndex + 1)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   class="btn btn-default @nextDisabled">
+                    Next
+                </a>
+            </div>
         </div>
     </div>
-</div>
-<div class="modal fade" id="create-transaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div id="create-transaction-container"></div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="delete-transaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div id="delete-transaction-container"></div>
-        </div>
-    </div>
-</div>
 
 
+    @* MODAL *@
+    <div class="modal fade" id="edit-transaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div id="edit-transaction-container"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="create-transaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div id="create-transaction-container"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete-transaction" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div id="delete-transaction-container"></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="delete-selected-transactions" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div id="delete-selected-transactions-container"></div>
+            </div>
+        </div>
+    </div>
+
+</div>
 
 <script type="text/javascript">
 
     /* Edit ------------------------*/
-
     $(document).ready(function (e) {
         $('.edit-transaction').click(function () {
             if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent)
@@ -175,14 +183,12 @@
         e.stopPropagation();
     });
 
-    //$(".transaction-menu").click(function (e) {
-    //    e.stopPropagation();
-    //    $('.dropdown-menu').toggle();
-    //});
+
 
     /* Delete ------------------------*/
     $(document).ready(function () {
         $('.delete-transaction').click(function () {
+            alert('delete 1');
             var url = "/Transactions/Delete"; // the url to the controller
             var id = $(this).parent().parent().attr('data-id'); // the id that's given to each button in the list
             $.get(url + '/' + id, function (data) {
@@ -191,9 +197,27 @@
             });
         });
     });
+    $(document).ready(function () {
+        $(".delete-selected-transactions").click(function () {
+            var idList = new Array();
+            $('.chk-transactions').each(function () {
+                if ($(this).is(":checked")) {
+                    idList.push($(this).parent().parent().attr('data-id'));
+                }
+            });
+
+            jQuery.ajaxSettings.traditional = true
+            $.get("/Transactions/Delete", { ids: idList}, function (data) {
+                $('#delete-selected-transactions-container').html(data);
+                $('#delete-selected-transactions').modal('show');
+            });
+        });
+    });
 
 
-    /* Select ------------------------*/
+
+
+    /* Transaction Select------------------------*/
     $(document).ready(function () {
         $("#chk-all-transactions").click(function () {
             $('.chk-transactions').prop('checked', this.checked);
@@ -208,6 +232,11 @@
             $('#chk-all-transactions').prop('checked', false);
         }
     });
+
+
+    
+
+
 
 
 </script>

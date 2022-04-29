@@ -27,7 +27,8 @@ namespace Expense_Tracker_aspnetcore.Controllers
             int? pageNumber,
             string currentFilter,
             DateTime dateFrom, DateTime dateTo,
-            int[] selectedAccounts)
+            int[] selectedAccounts, 
+            int[] selectedCategories)
         {
 
 
@@ -63,16 +64,19 @@ namespace Expense_Tracker_aspnetcore.Controllers
 
             if (selectedAccounts.Length != 0)
             {
-                transactions = from t in transactions
-                               where selectedAccounts.Contains(t.AccountID)
-                               select t;
+                transactions = transactions.Where(x => selectedAccounts.ToList().Contains(x.AccountID));
+                              
+            }
+            if (selectedCategories.Length != 0)
+            {
+                transactions = transactions.Where(x => selectedCategories.ToList().Contains(x.CategoryID));
+
             }
 
-
             var accounts = from a in _context.Accounts select a;
+            var categories = _context.Categories.Select(x => x);
 
-            var categories = from c in _context.Categories select c;
-
+            
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -130,7 +134,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             var transactionType = from Enums.TransactionType t in Enum.GetValues(typeof(Enums.TransactionType))
                                   select new { ID = (int)t, Name = t.ToString() };
 
-            ViewData["TransactionType"] = new SelectList(transactionType, "Name", "Name", "Expense"); 
+            ViewData["TransactionType"] = new SelectList(transactionType, "Name", "Name", "Expense");
 
 
             return PartialView("~/Views/PartialViews/_CreateTransaction.cshtml");
@@ -193,9 +197,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             //return View(transaction);
         }
 
-        // POST: Transactions/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("TransactionID,Name,Amount,PostDate,Description,AccountID,CategoryID,TransactionType")] Transaction transaction)
@@ -230,7 +232,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             return View(transaction);
         }
 
-        // GET: Transactions/Delete/5
+        
         public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
@@ -243,6 +245,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
                 .Include(t => t.Category)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.TransactionID == id);
+
             if (transaction == null)
             {
                 return NotFound();
@@ -256,28 +259,56 @@ namespace Expense_Tracker_aspnetcore.Controllers
             return PartialView("~/Views/PartialViews/_DeleteTransaction.cshtml", transaction);
         }
 
-        // POST: Transactions/Delete/5
+        
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int[] ids)
         {
-            var transaction = await _context.Transactions.FindAsync(id);
+            var transaction = await _context.Transactions
+                .Where(m => ids.Contains(m.TransactionID)).ToListAsync();
+
             if (transaction == null)
             {
                 return RedirectToAction(nameof(Index));
             }
-
             try
             {
-                _context.Transactions.Remove(transaction);
+                _context.Transactions.RemoveRange(transaction);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                return RedirectToAction(nameof(Delete), new { id, saveChangesError = true });
+                return RedirectToAction(nameof(Delete), new { ids, saveChangesError = true });
             }
             return RedirectToAction(nameof(Index));
         }
+
+
+        [HttpGet, ActionName("Delete")]
+        public async Task<IActionResult> DeleteMultiple(int[] ids, bool? saveChangesError = false)
+        {
+            if (ids == null)
+            {
+                return NotFound();
+            }
+
+            var transaction = await _context.Transactions.Include(t => t.Account).Include(t => t.Category).AsNoTracking()
+                .Where(m => ids.Contains(m.TransactionID)).ToListAsync();
+
+
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] =
+                    "Delete failed. Try again, and if the problem persists " +
+                    "see your system administrator.";
+            }
+            return PartialView("~/Views/PartialViews/_DeleteMultipleTransaction.cshtml", transaction);
+        }
+
+
 
         private bool TransactionExists(int id)
         {

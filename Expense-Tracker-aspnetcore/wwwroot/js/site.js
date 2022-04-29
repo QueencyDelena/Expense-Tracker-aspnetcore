@@ -1,4 +1,8 @@
 ﻿
+AddAntiForgeryToken = function (data) {
+    data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
+    return data;
+};
 
 
 $(".nav .nav-link").on("click", function () {

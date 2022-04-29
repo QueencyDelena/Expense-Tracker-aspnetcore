@@ -5,7 +5,7 @@
 }
 
 <div class="container p-4">
-    <form asp-action="Index" method="get">
+    @*<form asp-action="Index" method="get">*@
         <div class="d-flex flex-column">
             @* HEADER *@
             <h5 class="">Filters</h5>
@@ -29,8 +29,9 @@
                     @foreach (var account in Accounts)
                     {
                         <tr class="">
+
                             <td class="col-1 checkbox">
-                                <input type="checkbox" checked value="" class="chk-accounts" id="@account.AccountID" />
+                                <input type="checkbox" checked value="" class="chk-accounts" data-id="@account.AccountID" />
                             </td>
                             <td class="col ">@account.Name</td>
                         </tr>
@@ -50,9 +51,16 @@
                         @foreach (var category in Categories)
                         {
                             <tr class="">
+                                @*<td class="col-1"><input asp-for="@category.Selected" type="checkbox" /></td>
+                                    <td class="col "><label asp-for="@category.Selected">@category.Name</label></td>
+
+                                    @Html.HiddenFor(x => category.CategoryID)
+                                    @Html.HiddenFor(y => category.Name)*@
                                 <td class="col-1"><input type="checkbox" checked value="" class="chk-categories" id="@category.CategoryID" /> </td>
                                 <td class="col ">@category.Name</td>
                             </tr>
+
+
                         }
                     </tbody>
                 </table>
@@ -60,15 +68,44 @@
 
 
             @* SUBMIT *@
-            <div class="col"><button type="submit" value="Filter" class="btn btn-dark fa-solid fa-chart-pie">Filter</button></div>
+            <div class="col"><button id ="filter-transaction" value="Filter" class="btn btn-dark fa-solid fa-chart-pie">Filter</button></div>
 
         </div>
 
 
-    </form>
+    @*</form>*@
 </div>
 
 <script>
+    $(document).ready(function () {
+        $("#filter-transaction").click(function () {
+            var accountList = new Array();
+            $('.chk-accounts').each(function () {
+                if ($(this).is(":checked")) {
+                    accountList.push($(this).attr('data-id'));
+                }
+            });
+
+            jQuery.ajaxSettings.traditional = true
+
+
+            $.get("/Transactions/Index",
+                {
+                    selectedAccounts: accountList
+                }, function (data) {
+                    $('#transaction-page').html(data);
+                });
+        });
+    });
+    $(document).ready(function () {
+        $("#chk-all-categories").click(function () {
+            var url = "/Transactions/Create"; // the url to the controller
+            $.get(url, function (data) {
+                $('#create-transaction-container').html(data);
+                $('#create-transaction').modal('show');
+            });
+        });
+    });
 
     $(document).ready(function () {
         $("#chk-all-accounts").click(function () {
