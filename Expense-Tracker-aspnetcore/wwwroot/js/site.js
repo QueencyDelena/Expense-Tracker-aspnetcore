@@ -1,4 +1,26 @@
-﻿
+﻿function GetTransactions(data) {
+    jQuery.ajaxSettings.traditional = true
+    $.ajax({
+        url: "/Transactions/GetTransactions",
+        type: "get",
+        data: data,
+        success: function (result) {
+            $("#transaction-table").html(result);
+        }
+    });
+}
+function FilterTransactions() {
+    var accountList = new Array();
+    $('.chk-accounts').each(function () {
+        if ($(this).is(":checked")) {
+            accountList.push($(this).attr('data-id'));
+        }
+    });
+    GetTransactions({ selectedAccounts: accountList });
+}
+
+
+
 AddAntiForgeryToken = function (data) {
     data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
     return data;

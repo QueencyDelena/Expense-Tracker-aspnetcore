@@ -21,6 +21,89 @@ namespace Expense_Tracker_aspnetcore.Controllers
         }
 
         // GET: Transactions
+        public async Task<IActionResult> GetTransactions(
+            string sortOrder,
+            string searchString,
+            int? pageNumber,
+            string currentFilter,
+            DateTime dateFrom, DateTime dateTo,
+            int[] selectedAccounts,
+            int[] selectedCategories)
+        {
+
+
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DateSort"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
+            if (dateFrom == DateTime.MinValue)
+                dateFrom = DateTime.Today;
+            if (dateTo == DateTime.MinValue)
+            {
+                dateFrom = DateTime.Today.AddDays(-(DateTime.Today.Day - 1));
+                dateTo = DateTime.Today;
+            }
+            ViewData["DateFrom"] = dateFrom;
+            ViewData["DateTo"] = dateTo;
+
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            var transactions =
+                _context.Transactions.Include(t => t.Account).Include(t => t.Category)
+                .Where(t => t.PostDate.Date >= dateFrom.Date && t.PostDate.Date <= dateTo.Date);
+
+
+
+            if (selectedAccounts.Length != 0)
+            {
+                transactions = transactions.Where(x => selectedAccounts.ToList().Contains(x.AccountID));
+
+            }
+            if (selectedCategories.Length != 0)
+            {
+                transactions = transactions.Where(x => selectedCategories.ToList().Contains(x.CategoryID));
+
+            }
+
+            var accounts = from a in _context.Accounts select a;
+            var categories = _context.Categories.Select(x => x);
+
+
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                transactions = transactions.Where(t => t.Name.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "date_desc":
+                    transactions.OrderByDescending(t => t.PostDate);
+                    break;
+                default:
+                    transactions = transactions.OrderByDescending(s => s.PostDate);
+                    break;
+            }
+            int pageSize = 10;
+
+            var transactionViewModel = new TransactionViewModel()
+            {
+                Accounts = accounts,
+                Categories = categories,
+                Transactions = await PaginatedList<Transaction>.CreateAsync(transactions.AsNoTracking(), pageNumber ?? 1, pageSize)
+            };
+
+            return PartialView("~/Views/PartialViews/_TransactionTable.cshtml", transactionViewModel);
+        }
+
+        // GET: Transactions
         public async Task<IActionResult> Index(
             string sortOrder,
             string searchString,
@@ -30,8 +113,6 @@ namespace Expense_Tracker_aspnetcore.Controllers
             int[] selectedAccounts, 
             int[] selectedCategories)
         {
-
-
             ViewData["CurrentSort"] = sortOrder;
             ViewData["DateSort"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["CurrentFilter"] = searchString;
@@ -277,38 +358,37 @@ namespace Expense_Tracker_aspnetcore.Controllers
             }
             catch (DbUpdateException)
             {
+                
                 return RedirectToAction(nameof(Delete), new { ids, saveChangesError = true });
             }
             return RedirectToAction(nameof(Index));
         }
 
 
-        [HttpGet, ActionName("Delete")]
-        public async Task<IActionResult> DeleteMultiple(int[] ids, bool? saveChangesError = false)
-        {
-            if (ids == null)
-            {
-                return NotFound();
-            }
+        //[HttpGet, ActionName("Delete")]
+        //public async Task<IActionResult> DeleteMultiple(int[] ids, bool? saveChangesError = false)
+        //{
+        //    if (ids == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var transaction = await _context.Transactions.Include(t => t.Account).Include(t => t.Category).AsNoTracking()
-                .Where(m => ids.Contains(m.TransactionID)).ToListAsync();
-
-
-            if (transaction == null)
-            {
-                return NotFound();
-            }
-            if (saveChangesError.GetValueOrDefault())
-            {
-                ViewData["ErrorMessage"] =
-                    "Delete failed. Try again, and if the problem persists " +
-                    "see your system administrator.";
-            }
-            return PartialView("~/Views/PartialViews/_DeleteMultipleTransaction.cshtml", transaction);
-        }
+        //    var transaction = await _context.Transactions.Include(t => t.Account).Include(t => t.Category).AsNoTracking()
+        //        .Where(m => ids.Contains(m.TransactionID)).ToListAsync();
 
 
+        //    if (transaction == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    if (saveChangesError.GetValueOrDefault())
+        //    {
+        //        ViewData["ErrorMessage"] =
+        //            "Delete failed. Try again, and if the problem persists " +
+        //            "see your system administrator.";
+        //    }
+        //    return PartialView("~/Views/PartialViews/_DeleteMultipleTransaction.cshtml", transaction);
+        //}
 
         private bool TransactionExists(int id)
         {

@@ -79,24 +79,11 @@
 <script>
     $(document).ready(function () {
         $("#filter-transaction").click(function () {
-            var accountList = new Array();
-            $('.chk-accounts').each(function () {
-                if ($(this).is(":checked")) {
-                    accountList.push($(this).attr('data-id'));
-                }
-            });
-
-            jQuery.ajaxSettings.traditional = true
-
-
-            $.get("/Transactions/Index",
-                {
-                    selectedAccounts: accountList
-                }, function (data) {
-                    $('#transaction-page').html(data);
-                });
+            FilterTransactions();
         });
     });
+
+
     $(document).ready(function () {
         $("#chk-all-categories").click(function () {
             var url = "/Transactions/Create"; // the url to the controller
