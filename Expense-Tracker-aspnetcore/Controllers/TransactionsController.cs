@@ -361,34 +361,9 @@ namespace Expense_Tracker_aspnetcore.Controllers
                 
                 return RedirectToAction(nameof(Delete), new { ids, saveChangesError = true });
             }
-            return RedirectToAction(nameof(Index));
+             
+            return RedirectToAction(nameof(GetTransactions));
         }
-
-
-        //[HttpGet, ActionName("Delete")]
-        //public async Task<IActionResult> DeleteMultiple(int[] ids, bool? saveChangesError = false)
-        //{
-        //    if (ids == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    var transaction = await _context.Transactions.Include(t => t.Account).Include(t => t.Category).AsNoTracking()
-        //        .Where(m => ids.Contains(m.TransactionID)).ToListAsync();
-
-
-        //    if (transaction == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    if (saveChangesError.GetValueOrDefault())
-        //    {
-        //        ViewData["ErrorMessage"] =
-        //            "Delete failed. Try again, and if the problem persists " +
-        //            "see your system administrator.";
-        //    }
-        //    return PartialView("~/Views/PartialViews/_DeleteMultipleTransaction.cshtml", transaction);
-        //}
 
         private bool TransactionExists(int id)
         {

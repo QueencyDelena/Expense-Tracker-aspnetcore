@@ -2,12 +2,19 @@
 @{
     var Transactions = Model.Transactions;
 }
+<div class="row ">
+    @* CREATE TRANSACTION *@
+    <div class="col d-flex m--0 flex-row-reverse">
+        <button class="btn btn-dark btn-sm create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+        <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
+    </div>
+</div>
 <div class="row">
     <table class="table table-borderless transactions-table">
         <thead class="bg-dark text-white">
             <tr>
                 <th class="p-1 align-middle text-center">
-                    <input type="checkbox" id="chk-all-transactions" value="" />
+                    <input type="checkbox" id="select-all-transactions" value="" />
                 </th>
                 <th colspan="3">
                     <button class="delete-selected-transactions btn button btn-danger p-1"> Delete </button>
@@ -108,22 +115,9 @@
 
         /* Delete ------------------------*/
         $(".delete-selected-transactions").click(function () {
-            var count = $('.chk-transactions').length;
             $('#delete-transaction').modal('show');
         });
 
-        $(".confirm-delete").click(function () {
-            var idList = new Array();
-            $('.chk-transactions').each(function () {
-                if ($(this).is(":checked")) {
-                    idList.push($(this).parent().parent().attr('data-id'));
-                }
-            });
-
-            jQuery.ajaxSettings.traditional = true
-            $.post("/Transactions/Delete", { ids: idList }, function (data) {
-            });
-        })
     });
 
 </script>

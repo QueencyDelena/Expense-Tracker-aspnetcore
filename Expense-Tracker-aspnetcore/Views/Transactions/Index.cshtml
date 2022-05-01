@@ -17,14 +17,6 @@
 
 
         <div class="flex-grow-1 ml-5 mr-5 mb-5 mt-3">
-            <div class="row ">
-                @* CREATE TRANSACTION *@
-                <div class="col d-flex m--0 flex-row-reverse">
-                    <button class="btn btn-dark btn-sm create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
-                    <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
-                </div>
-            </div>
-
             @* TRANSACTION TABLE *@
             <div id="transaction-table">
                 @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
@@ -70,9 +62,6 @@
 </div>
 
 <script type="text/javascript">
-
-
-
     /* Create ------------------------*/
     $(document).ready(function () {
         $('.create-transaction').click(function () {
@@ -106,6 +95,7 @@
 
             jQuery.ajaxSettings.traditional = true
             $.post("/Transactions/Delete", { ids: idList }, function (data) {
+                
             });
         })
 

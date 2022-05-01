@@ -1,24 +1,48 @@
-﻿function GetTransactions(data) {
-    jQuery.ajaxSettings.traditional = true
-    $.ajax({
-        url: "/Transactions/GetTransactions",
-        type: "get",
-        data: data,
-        success: function (result) {
-            $("#transaction-table").html(result);
-        }
+﻿$(document).ready(function () {
+    $(document).ready(function () {
+        $("#filter-transaction").click(function () {
+            FilterTransactions();
+        });
     });
-}
-function FilterTransactions() {
-    var accountList = new Array();
-    $('.chk-accounts').each(function () {
-        if ($(this).is(":checked")) {
-            accountList.push($(this).attr('data-id'));
-        }
-    });
-    GetTransactions({ selectedAccounts: accountList });
-}
 
+    function GetTransactions(data) {
+        jQuery.ajaxSettings.traditional = true
+        $.ajax({
+            url: "/Transactions/GetTransactions",
+            type: "get",
+            data: data,
+            success: function (result) {
+                $("#transaction-table").html(result);
+            }
+        });
+    }
+    function FilterTransactions() {
+        var accountList = new Array();
+        $('.select-accounts').each(function () {
+            if ($(this).is(":checked")) {
+                accountList.push($(this).attr('data-id'));
+            }
+        });
+        var categoryList = new Array();
+        $('.select-categories').each(function () {
+            if ($(this).is(":checked")) {
+                categoryList.push($(this).attr('data-id'));
+            }
+        });
+        var searchString = $('#searchBar').val();
+
+        var dateFrom = $('#dateFrom').val();
+        var dateTo = $('#dateTo').val();
+
+        GetTransactions({
+            dateFrom: dateFrom,
+            dateTo:dateTo,
+            searchString: searchString,
+            selectedAccounts: accountList,
+            selectedCategories: categoryList,
+        });
+    }
+});
 
 
 AddAntiForgeryToken = function (data) {
