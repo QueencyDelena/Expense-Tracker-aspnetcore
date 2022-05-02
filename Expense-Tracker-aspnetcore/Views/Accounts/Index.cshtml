@@ -6,9 +6,10 @@
 
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div class="col d-flex m--0 flex-row-reverse">
+    <button id="create-account-btn" class="btn btn-dark btn-sm" data-toggle="modal" asp-action="Create">+</button>
+    <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
+</div>
 <table class="table table-borderless transactions-table">
     <thead class="bg-dark text-white">
         <tr>
@@ -46,3 +47,25 @@
         }
     </tbody>
 </table>
+<div class="modal fade" id="create-account-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div id="create-account-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+    /* Create ------------------------*/
+    $(document).ready(function () {
+        $('#create-account-btn').click(function () {
+            var url = "/Accounts/Create"; // the url to the controller
+            $.get(url, function (data) {
+                $('#create-account-container').html(data);
+                $('#create-account-modal').modal('show');
+            });
+        });
+    });
+    $(".select-accounts").click(function (e) {
+        e.stopPropagation();
+    });
+</script>

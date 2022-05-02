@@ -61,7 +61,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // GET: Accounts/Create
         public IActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Accounts/Create
