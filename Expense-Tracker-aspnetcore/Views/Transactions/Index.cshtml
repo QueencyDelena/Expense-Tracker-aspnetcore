@@ -72,7 +72,7 @@
             });
         });
     });
-    $(".chk-transactions").click(function (e) {
+    $(".select-transactions").click(function (e) {
         e.stopPropagation();
     });
 
@@ -102,30 +102,5 @@
 
 
     });
-
-
-
-
-    /* Transaction Select------------------------*/
-    $(document).ready(function () {
-        $("#chk-all-transactions").click(function () {
-            $('.chk-transactions').prop('checked', this.checked);
-        });
-    });
-
-    $(".chk-transactions").change(function () {
-        if ($('.chk-transactions:checked').length == $('.chk-transactions').length) {
-            $('#chk-all-transactions').prop('checked', this.checked);
-        }
-        else {
-            $('#chk-all-transactions').prop('checked', false);
-        }
-    });
-
-
-
-
-
-
-
+       
 </script>
