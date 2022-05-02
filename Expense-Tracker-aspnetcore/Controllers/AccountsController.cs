@@ -22,7 +22,22 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // GET: Accounts
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Accounts.ToListAsync());
+            var accounts = await _context.Transactions
+                .Include(a => a.Account)
+                .GroupBy(a => new
+                {
+                    a.Account.AccountID,
+                    a.Account.Name
+                })
+                .Select(group => new Account()
+                {
+                    AccountID = group.Key.AccountID,
+                    Name = group.Key.Name,
+                    Balance = Convert.ToDecimal(group.Sum(x => x.Amount))
+                }).ToListAsync();
+
+
+            return View(accounts);
         }
 
         // GET: Accounts/Details/5
