@@ -1,50 +1,121 @@
-﻿$(document).ready(function () {
-    /* Select ------------------------*/
-
-
-    //unselect all transactions
-    $("#cancel-selected").click(function () {
-        $('.select-transactions').prop('checked', false);
-        $('#select-all-transactions').prop('checked', false);
-    });
-
-
-    //show/hide header buttons when clicking select-transactions
-    $(".select-transactions").change(function () {
-        if ($('.select-transactions:checked').length > 0) {
-            $('#header-buttons').attr("hidden", false);
-        }
-        else {
-            $('#header-buttons').attr("hidden", true);
+﻿function GetTransactions(data) {
+    jQuery.ajaxSettings.traditional = true
+    $.ajax({
+        url: "/Transactions/GetTransactions",
+        type: "get",
+        data: data,
+        success: function (result) {
+            $("#transaction-table").html(result);
         }
     });
-
-
-    //select all transaction on/off
-    $("#select-all-transactions").click(function () {
+}
+function FilterTransactions() {
+    var accountList = new Array();
+    $('.select-accounts').each(function () {
         if ($(this).is(":checked")) {
-            $('.select-transactions').prop('checked', this.checked);
-            $('#header-buttons').attr("hidden", false);
+            accountList.push($(this).attr('data-id'));
         }
-        else {
+    });
+    var categoryList = new Array();
+    $('.select-categories').each(function () {
+        if ($(this).is(":checked")) {
+            categoryList.push($(this).attr('data-id'));
+        }
+    });
+    var searchString = $('#searchBar').val();
+
+    var dateFrom = $('#dateFrom').val();
+    var dateTo = $('#dateTo').val();
+
+    GetTransactions({
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        searchString: searchString,
+        selectedAccounts: accountList,
+        selectedCategories: categoryList,
+    });
+}
+function EditTransaction(id) {
+    var url = "/Transactions/Edit";
+    $.get(url + '/' + id, function (data) {
+        $('#edit-transaction-container').html(data);
+        $('#edit-transaction').modal('show');
+    });
+}
+
+
+
+$(document).ready(function () {
+    /*Filter Div ===============================*/
+
+
+    /*Deselect-All Toggle*/
+    $(".cancel-select, .select-all-accounts, .select-all-categories, .select-all-transactions").click(function () {
+        var $this = $(this);
+
+        if ($this.hasClass("cancel-select")) {
             $('.select-transactions').prop('checked', false);
-            $('#header-buttons').attr("hidden", true);
+            $('#select-all-transactions').prop('checked', false);
+        }
+        else if ($this.hasClass("select-all-accounts")) {
+            $('.select-accounts').prop('checked', this.checked);
+        }
+        else if ($this.hasClass("select-all-categories")) {
+            $('.select-categories').prop('checked', this.checked);
+        }
+        else if ($this.hasClass("select-all-transactions")) {
+            if ($(this).is(":checked")) {
+                $('.select-transactions').prop('checked', this.checked);
+                $('#header-buttons').attr("hidden", false);
+            }
+            else {
+                $('.select-transactions').prop('checked', false);
+                $('#header-buttons').attr("hidden", true);
+            }
         }
     });
 
 
-    /* Edit ------------------------*/
+    /*On Checkbox Change*/
+    $(".select-accounts, .select-categories").change(function () {
+        var $this = $(this);
+
+        if ($this.hasClass("select-accounts")) {
+            if ($('.select-accounts:checked').length == $('.select-accounts').length) {
+                $('.select-all-accounts').prop('checked', this.checked);
+            }
+            else {
+                $('.select-all-accounts').prop('checked', false);
+            }
+        }
+
+        else if ($this.hasClass("select-categories")) {
+            if ($('.select-categories:checked').length == $('.select-categories').length) {
+                $('.select-all-categories').prop('checked', this.checked);
+            }
+            else {
+                $('.select-all-categories').prop('checked', false);
+            }
+        }
+
+        else if ($this.hasClass("select-transactions")) {
+            if ($('.select-transactions:checked').length > 0) {
+                $('#header-buttons').attr("hidden", false);
+            }
+            else {
+                $('#header-buttons').attr("hidden", true);
+            }
+        }
+
+    });
+
+
+
     $('.edit-transaction').click(function (e) {
-        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent)
+        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent) {
             return false;
-
-        var url = "/Transactions/Edit"; // the url to the controller
-        var id = $(this).attr('data-id'); // the id that's given to each button in the list
-        $.get(url + '/' + id, function (data) {
-            $('#edit-transaction-container').html(data);
-            $('#edit-transaction').modal('show');
-        });
-
+        }
+        EditTransaction($(this).attr('data-id'));
     });
 
 
@@ -58,6 +129,12 @@
     /* Select Transactions------------------------*/
     $(".select-transactions").click(function (e) {
         e.stopPropagation();
+    });
+    $(".transaction-menu").click(function (e) {
+        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent)
+            return false;
+
+        return true;
     });
 
 
@@ -92,54 +169,18 @@
     })
 
 
-    $(document).ready(function () {
-        $("#filter-transaction").click(function () {
-            FilterTransactions();
-        });
+
+    $("#filter-transaction").click(function () {
+        FilterTransactions();
     });
 
-    function GetTransactions(data) {
-        jQuery.ajaxSettings.traditional = true
-        $.ajax({
-            url: "/Transactions/GetTransactions",
-            type: "get",
-            data: data,
-            success: function (result) {
-                $("#transaction-table").html(result);
-            }
-        });
-    }
-    
+
+
 });
 
 
 
-function FilterTransactions() {
-    var accountList = new Array();
-    $('.select-accounts').each(function () {
-        if ($(this).is(":checked")) {
-            accountList.push($(this).attr('data-id'));
-        }
-    });
-    var categoryList = new Array();
-    $('.select-categories').each(function () {
-        if ($(this).is(":checked")) {
-            categoryList.push($(this).attr('data-id'));
-        }
-    });
-    var searchString = $('#searchBar').val();
 
-    var dateFrom = $('#dateFrom').val();
-    var dateTo = $('#dateTo').val();
-
-    GetTransactions({
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        searchString: searchString,
-        selectedAccounts: accountList,
-        selectedCategories: categoryList,
-    });
-}
 
 AddAntiForgeryToken = function (data) {
     data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();

@@ -49,18 +49,3 @@
         </div>
     </div>
 </div>
-<script>
-    /* Create ------------------------*/
-    $(document).ready(function () {
-        $('#create-account-btn').click(function () {
-            var url = "/Accounts/Create"; // the url to the controller
-            $.get(url, function (data) {
-                $('#create-account-container').html(data);
-                $('#create-account-modal').modal('show');
-            });
-        });
-    });
-    $(".select-accounts").click(function (e) {
-        e.stopPropagation();
-    });
-</script>
