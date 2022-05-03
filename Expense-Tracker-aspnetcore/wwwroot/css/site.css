@@ -114,9 +114,12 @@ body {
 }
 
 #transaction-page {
-    background-color: #edf5e1;
+    background-color: #f0f0f0;
 }
-
+.transaction:hover {
+    background-color: lightgray;
+    box-shadow: gray 3px 3px 3px;
+}
 
 
 

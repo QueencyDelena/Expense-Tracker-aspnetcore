@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Expense_Tracker_aspnetcore.Models.Account>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Balance Sheet";
 }
 
 <h1>Index</h1>
@@ -33,18 +33,10 @@
                     <input class="select-accounts" type="checkbox" name="name" value="" />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AccountID)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Balance)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.AccountID">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.AccountID">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.AccountID">Delete</a>
                 </td>
             </tr>
         }
