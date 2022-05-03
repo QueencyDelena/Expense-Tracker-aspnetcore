@@ -1,4 +1,97 @@
 ﻿$(document).ready(function () {
+    /* Select ------------------------*/
+
+
+    //unselect all transactions
+    $("#cancel-selected").click(function () {
+        $('.select-transactions').prop('checked', false);
+        $('#select-all-transactions').prop('checked', false);
+    });
+
+
+    //show/hide header buttons when clicking select-transactions
+    $(".select-transactions").change(function () {
+        if ($('.select-transactions:checked').length > 0) {
+            $('#header-buttons').attr("hidden", false);
+        }
+        else {
+            $('#header-buttons').attr("hidden", true);
+        }
+    });
+
+
+    //select all transaction on/off
+    $("#select-all-transactions").click(function () {
+        if ($(this).is(":checked")) {
+            $('.select-transactions').prop('checked', this.checked);
+            $('#header-buttons').attr("hidden", false);
+        }
+        else {
+            $('.select-transactions').prop('checked', false);
+            $('#header-buttons').attr("hidden", true);
+        }
+    });
+
+
+    /* Edit ------------------------*/
+    $('.edit-transaction').click(function (e) {
+        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent)
+            return false;
+
+        var url = "/Transactions/Edit"; // the url to the controller
+        var id = $(this).attr('data-id'); // the id that's given to each button in the list
+        $.get(url + '/' + id, function (data) {
+            $('#edit-transaction-container').html(data);
+            $('#edit-transaction').modal('show');
+        });
+
+    });
+
+
+
+    /* Delete ------------------------*/
+    $(".delete-selected-transactions").click(function () {
+        $('#delete-transaction').modal('show');
+    });
+
+
+    /* Select Transactions------------------------*/
+    $(".select-transactions").click(function (e) {
+        e.stopPropagation();
+    });
+
+
+    /* Create Transaction------------------------*/
+    $('.create-transaction').click(function () {
+        var url = "/Transactions/Create"; // the url to the controller
+        $.get(url, function (data) {
+            $('#create-transaction-container').html(data);
+            $('#create-transaction').modal('show');
+        });
+    });
+
+
+    /* Delete Transaction------------------------*/
+    $(".delete-selected-transactions").click(function () {
+        var count = $('.chk-transactions').length;
+        $('#delete-transaction').modal('show');
+    });
+
+    $(".confirm-delete").click(function () {
+        var idList = new Array();
+        $('.chk-transactions').each(function () {
+            if ($(this).is(":checked")) {
+                idList.push($(this).parent().parent().attr('data-id'));
+            }
+        });
+
+        jQuery.ajaxSettings.traditional = true
+        $.post("/Transactions/Delete", { ids: idList }, function (data) {
+
+        });
+    })
+
+
     $(document).ready(function () {
         $("#filter-transaction").click(function () {
             FilterTransactions();
@@ -16,34 +109,37 @@
             }
         });
     }
-    function FilterTransactions() {
-        var accountList = new Array();
-        $('.select-accounts').each(function () {
-            if ($(this).is(":checked")) {
-                accountList.push($(this).attr('data-id'));
-            }
-        });
-        var categoryList = new Array();
-        $('.select-categories').each(function () {
-            if ($(this).is(":checked")) {
-                categoryList.push($(this).attr('data-id'));
-            }
-        });
-        var searchString = $('#searchBar').val();
-
-        var dateFrom = $('#dateFrom').val();
-        var dateTo = $('#dateTo').val();
-
-        GetTransactions({
-            dateFrom: dateFrom,
-            dateTo:dateTo,
-            searchString: searchString,
-            selectedAccounts: accountList,
-            selectedCategories: categoryList,
-        });
-    }
+    
 });
 
+
+
+function FilterTransactions() {
+    var accountList = new Array();
+    $('.select-accounts').each(function () {
+        if ($(this).is(":checked")) {
+            accountList.push($(this).attr('data-id'));
+        }
+    });
+    var categoryList = new Array();
+    $('.select-categories').each(function () {
+        if ($(this).is(":checked")) {
+            categoryList.push($(this).attr('data-id'));
+        }
+    });
+    var searchString = $('#searchBar').val();
+
+    var dateFrom = $('#dateFrom').val();
+    var dateTo = $('#dateTo').val();
+
+    GetTransactions({
+        dateFrom: dateFrom,
+        dateTo: dateTo,
+        searchString: searchString,
+        selectedAccounts: accountList,
+        selectedCategories: categoryList,
+    });
+}
 
 AddAntiForgeryToken = function (data) {
     data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();

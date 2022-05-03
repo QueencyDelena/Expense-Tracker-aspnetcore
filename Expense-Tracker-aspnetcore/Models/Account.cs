@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Expense_Tracker_aspnetcore.Models
 {
@@ -13,7 +14,7 @@ namespace Expense_Tracker_aspnetcore.Models
         public int UserID { get; set; }
         public string Name { get; set; }
 
-        [Column(TypeName = "decimal(18,4)")]
+        [DataType(DataType.Currency)]
         public decimal Balance { get; set; } = 0;
 
 
