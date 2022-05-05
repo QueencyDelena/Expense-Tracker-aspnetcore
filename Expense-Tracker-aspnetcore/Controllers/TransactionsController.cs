@@ -20,7 +20,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             _context = context;
         }
 
-        // GET: Transactions
+        
         public async Task<IActionResult> GetTransactions(
             string sortOrder,
             string searchString,

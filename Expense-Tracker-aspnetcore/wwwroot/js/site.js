@@ -46,8 +46,7 @@ function EditTransaction(id) {
 
 
 $(document).ready(function () {
-    /*Filter Div ===============================*/
-
+    /*TRANSACTIONS PAGE ====================================*/
 
     /*Deselect-All Toggle*/
     $(".cancel-select, .select-all-accounts, .select-all-categories, .select-all-transactions").click(function () {
@@ -55,7 +54,8 @@ $(document).ready(function () {
 
         if ($this.hasClass("cancel-select")) {
             $('.select-transactions').prop('checked', false);
-            $('#select-all-transactions').prop('checked', false);
+            $('.select-all-transactions').prop('checked', false);
+            $('#header-buttons').attr("hidden", true);
         }
         else if ($this.hasClass("select-all-accounts")) {
             $('.select-accounts').prop('checked', this.checked);
@@ -75,9 +75,18 @@ $(document).ready(function () {
         }
     });
 
+    /*Header-Button Toggle*/
+    $(".select-transactions").change(function () {
+        if ($('.select-transactions:checked').length > 0) {
+            $('#header-buttons').attr("hidden", false);
+        }
+        else {
+            $('#header-buttons').attr("hidden", true);
+        }
+    });
 
     /*On Checkbox Change*/
-    $(".select-accounts, .select-categories").change(function () {
+    $(".select-accounts, .select-categories, .select-transactions").change(function () {
         var $this = $(this);
 
         if ($this.hasClass("select-accounts")) {
@@ -99,11 +108,11 @@ $(document).ready(function () {
         }
 
         else if ($this.hasClass("select-transactions")) {
-            if ($('.select-transactions:checked').length > 0) {
-                $('#header-buttons').attr("hidden", false);
+            if ($('.select-transactions:checked').length == $('.select-transactions').length) {
+                $('.select-all-transactions').prop('checked', this.checked);
             }
             else {
-                $('#header-buttons').attr("hidden", true);
+                $('.select-all-transactions').prop('checked', false);
             }
         }
 
