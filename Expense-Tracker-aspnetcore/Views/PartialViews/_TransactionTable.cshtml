@@ -5,13 +5,13 @@
 <div class="row ">
     @* CREATE TRANSACTION *@
     <div class="col d-flex m-2 p-0 flex-row-reverse">
-        <button class="btn btn-sm create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+        <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
         <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
     </div>
 </div>
 <div class="row">
     <table class="table table-borderless transactions-table">
-        <thead>
+        <thead class="bg-primary">
             <tr>
                 <th class="p-2 align-middle text-center">
                     @if (Transactions.Count != 0)

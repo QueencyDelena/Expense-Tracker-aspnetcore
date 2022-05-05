@@ -85,13 +85,13 @@ body {
 /* Transactions Table 
 -------------------------------------*/
 .create-transaction{
-    background-color: #04AA6D;
+    /*background-color: #04AA6D;*/
 }
 
 .transactions-table thead {
     height: 3vmax;
     background-color: #282A35;
-    background-color: #04AA6D;
+    /*background-color: #04AA6D;*/
     color: #fff8f0;
 }
 
