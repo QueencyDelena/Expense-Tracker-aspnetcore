@@ -42,7 +42,8 @@
                 <span asp-validation-for="Amount" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="PostDate" class="control-label"></label>
+                <label class="control-label">Date</label>
+                @*<input asp-for="PostDate" class="form-control" type="datetime" value=@Model.PostDate.ToString("d MMMM yyyy hh:mm tt") />*@
                 <input asp-for="PostDate" class="form-control" type="datetime" value=@Model.PostDate.ToString("d MMMM yyyy hh:mm tt") />
                 <span asp-validation-for="PostDate" class="text-danger"></span>
             </div>

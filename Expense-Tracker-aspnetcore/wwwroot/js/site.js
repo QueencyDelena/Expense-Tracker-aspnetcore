@@ -1,15 +1,4 @@
-﻿function GetTransactions(data) {
-    jQuery.ajaxSettings.traditional = true
-    $.ajax({
-        url: "/Transactions/GetTransactions",
-        type: "get",
-        data: data,
-        success: function (result) {
-            $("#transaction-table").html(result);
-        }
-    });
-}
-function FilterTransactions() {
+﻿function FilterTransactions() {
     var accountList = new Array();
     $('.select-accounts').each(function () {
         if ($(this).is(":checked")) {
@@ -27,41 +16,51 @@ function FilterTransactions() {
     var dateFrom = $('#dateFrom').val();
     var dateTo = $('#dateTo').val();
 
-    GetTransactions({
-        dateFrom: dateFrom,
-        dateTo: dateTo,
-        searchString: searchString,
-        selectedAccounts: accountList,
-        selectedCategories: categoryList,
+    jQuery.ajaxSettings.traditional = true
+    $.ajax({
+        url: "/Transactions/GetTransactions",
+        type: "get",
+        data:
+        {
+            dateFrom: dateFrom,
+            dateTo: dateTo,
+            searchString: searchString,
+            selectedAccounts: accountList,
+            selectedCategories: categoryList,
+        },
+        success: function (result) {
+            $("#transaction-table").html(result);
+            TransactionTableScript();
+        }
     });
 }
-function EditTransaction(id) {
-    var url = "/Transactions/Edit";
-    $.get(url + '/' + id, function (data) {
-        $('#edit-transaction-container').html(data);
-        $('#edit-transaction').modal('show');
+
+function TransactionTableScript() {
+    /*Header-Button Toggle*/
+    $(".select-transactions").change(function () {
+        if ($('.select-transactions:checked').length > 0) {
+            $('#header-buttons').attr("hidden", false);
+        }
+        else {
+            $('#header-buttons').attr("hidden", true);
+        }
+
+
+        if ($('.select-transactions:checked').length == $('.select-transactions').length) {
+            $('.select-all-transactions').prop('checked', this.checked);
+        }
+        else {
+            $('.select-all-transactions').prop('checked', false);
+        }
+
     });
-}
 
-
-
-$(document).ready(function () {
-    /*TRANSACTIONS PAGE ====================================*/
-
-    /*Deselect-All Toggle*/
-    $(".cancel-select, .select-all-accounts, .select-all-categories, .select-all-transactions").click(function () {
+    $(".cancel-select, .select-all-transactions").click(function () {
         var $this = $(this);
-
         if ($this.hasClass("cancel-select")) {
             $('.select-transactions').prop('checked', false);
             $('.select-all-transactions').prop('checked', false);
             $('#header-buttons').attr("hidden", true);
-        }
-        else if ($this.hasClass("select-all-accounts")) {
-            $('.select-accounts').prop('checked', this.checked);
-        }
-        else if ($this.hasClass("select-all-categories")) {
-            $('.select-categories').prop('checked', this.checked);
         }
         else if ($this.hasClass("select-all-transactions")) {
             if ($(this).is(":checked")) {
@@ -75,18 +74,69 @@ $(document).ready(function () {
         }
     });
 
-    /*Header-Button Toggle*/
-    $(".select-transactions").change(function () {
-        if ($('.select-transactions:checked').length > 0) {
-            $('#header-buttons').attr("hidden", false);
+    $('.edit-transaction').click(function (e) {
+        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent) {
+            return false;
         }
-        else {
-            $('#header-buttons').attr("hidden", true);
+        var id = $(this).attr('data-id');
+        var url = "/Transactions/Edit";
+
+        $.get(url + '/' + id, function (data) {
+            $('#edit-transaction-container').html(data);
+            $('#edit-transaction').modal('show');
+        });
+    });
+
+    /* Select Transactions------------------------*/
+    $(".select-transactions").click(function (e) {
+        e.stopPropagation();
+    });
+    $(".transaction-menu").click(function (e) {
+        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent)
+            return false;
+
+        return true;
+    });
+
+
+    /* Create Transaction------------------------*/
+    $('.create-transaction').click(function () {
+        var url = "/Transactions/Create"; // the url to the controller
+        $.get(url, function (data) {
+            $('#create-transaction-container').html(data);
+            $('#create-transaction').modal('show');
+            $.validator.unobtrusive.parse("#create-transaction");
+        });
+    });
+
+
+    /* Delete Transaction------------------------*/
+    $(".delete-selected-transactions").click(function () {
+        $('#delete-transaction').modal('show');
+    });
+}
+
+$(document).ready(function () {
+    /*TRANSACTIONS PAGE ====================================*/
+    TransactionTableScript();
+
+
+    /*Deselect-All Toggle*/
+    $(".select-all-accounts, .select-all-categories").click(function () {
+        var $this = $(this);
+
+        if ($this.hasClass("select-all-accounts")) {
+            $('.select-accounts').prop('checked', this.checked);
+        }
+        else if ($this.hasClass("select-all-categories")) {
+            $('.select-categories').prop('checked', this.checked);
         }
     });
 
+
+
     /*On Checkbox Change*/
-    $(".select-accounts, .select-categories, .select-transactions").change(function () {
+    $(".select-accounts, .select-categories").change(function () {
         var $this = $(this);
 
         if ($this.hasClass("select-accounts")) {
@@ -107,75 +157,28 @@ $(document).ready(function () {
             }
         }
 
-        else if ($this.hasClass("select-transactions")) {
-            if ($('.select-transactions:checked').length == $('.select-transactions').length) {
-                $('.select-all-transactions').prop('checked', this.checked);
-            }
-            else {
-                $('.select-all-transactions').prop('checked', false);
-            }
-        }
 
     });
 
-
-
-    $('.edit-transaction').click(function (e) {
-        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent) {
-            return false;
-        }
-        EditTransaction($(this).attr('data-id'));
-    });
-
-
-
-    /* Delete ------------------------*/
-    $(".delete-selected-transactions").click(function () {
-        $('#delete-transaction').modal('show');
-    });
-
-
-    /* Select Transactions------------------------*/
-    $(".select-transactions").click(function (e) {
-        e.stopPropagation();
-    });
-    $(".transaction-menu").click(function (e) {
-        if (e.isDropDownToggleEvent != null && e.isDropDownToggleEvent)
-            return false;
-
-        return true;
-    });
-
-
-    /* Create Transaction------------------------*/
-    $('.create-transaction').click(function () {
-        var url = "/Transactions/Create"; // the url to the controller
-        $.get(url, function (data) {
-            $('#create-transaction-container').html(data);
-            $('#create-transaction').modal('show');
-        });
-    });
-
-
-    /* Delete Transaction------------------------*/
-    $(".delete-selected-transactions").click(function () {
-        var count = $('.chk-transactions').length;
-        $('#delete-transaction').modal('show');
-    });
 
     $(".confirm-delete").click(function () {
+        var form = $('#__AjaxAntiForgeryForm');
+        var token = $('input[name="__RequestVerificationToken"]', form).val();
         var idList = new Array();
-        $('.chk-transactions').each(function () {
+        $('.select-transactions').each(function () {
             if ($(this).is(":checked")) {
                 idList.push($(this).parent().parent().attr('data-id'));
             }
         });
-
         jQuery.ajaxSettings.traditional = true
-        $.post("/Transactions/Delete", { ids: idList }, function (data) {
+        $.post("/Transactions/Delete", { __RequestVerificationToken: token, ids: idList }, function (result) {
+            $("#transaction-table").html(result);
+            TransactionTableScript();
+            $('#delete-transaction').modal('hide');
 
         });
-    })
+
+    });
 
 
 
@@ -186,15 +189,6 @@ $(document).ready(function () {
 
 
 });
-
-
-
-
-
-AddAntiForgeryToken = function (data) {
-    data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
-    return data;
-};
 
 
 $(".nav .nav-link").on("click", function () {

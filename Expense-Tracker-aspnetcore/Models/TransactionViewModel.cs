@@ -9,6 +9,8 @@ namespace Expense_Tracker_aspnetcore.Models
     {
         public PaginatedList<Transaction> Transactions;
 
+        public List<int> SelectedTransactions { get; set; }
+
         public IEnumerable<Account> Accounts { get; set; }
 
         public IEnumerable<Category> Categories { get; set; }

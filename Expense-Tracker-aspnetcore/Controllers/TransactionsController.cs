@@ -222,9 +222,6 @@ namespace Expense_Tracker_aspnetcore.Controllers
             //return View();
         }
 
-        // POST: Transactions/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Amount,PostDate,Description,AccountID,CategoryID,TransactionType")] Transaction transaction)
@@ -342,6 +339,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
 
         
         [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int[] ids)
         {
             var transaction = await _context.Transactions
