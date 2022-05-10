@@ -80,7 +80,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             return View(summary);
         }
 
-        public IActionResult Privacy()
+        public IActionResult About()
         {
             return View();
         }

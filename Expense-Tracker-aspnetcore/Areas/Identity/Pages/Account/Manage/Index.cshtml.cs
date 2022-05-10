@@ -32,15 +32,20 @@ namespace Expense_Tracker_aspnetcore.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
+            
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+
+
         }
 
         private async Task LoadAsync(IdentityUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            
 
             Username = userName;
 

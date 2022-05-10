@@ -1,35 +1,73 @@
 ﻿@model IEnumerable<Expense_Tracker_aspnetcore.Models.Category>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Categories";
 }
 
-<h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+
+<h3>Categories</h3>
+
+<div class="d-flex justify-content-between">
+    <div id="header-buttons">
+        <button class="delete-selected-category btn button btn-danger p-0 pl-1 pr-1" hidden><i class="fa fa-trash"></i> Delete </button>
+        <button class="cancel-select btn button btn-dark p-0 pl-1 pr-1" hidden> Unselect All</button>
+    </div>
+    <button class="btn btn-primary btn-sm create-category" data-toggle="modal" asp-action="Create">+</button>
+</div>
+
+<table class="table table-borderless" id="category-table">
+    <thead class="bg-primary text-white">
         <tr>
+            <th class="p-2 align-middle text-center">
+                <input type="checkbox" class="select-all-category" value="" />
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Balance)
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.CategoryID">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.CategoryID">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.CategoryID">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr data-id="@item.CategoryID" class="edit-category">
+                <td class="align-middle p-0 m-0 text-center">
+                    <input class="select-category" type="checkbox" name="name" value="" />
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Balance)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+<div class="modal fade" id="categories-page-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div id="categories-page-container"></div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <h1>Confirm Delete</h1>
+
+            <h3>Are you sure you want to delete selected categories?</h3>
+            <h5 class="text-danger">Deleting categories will also delete transactions associated with it.</h5>
+
+            <div>
+                <h4>Transaction</h4>
+                <hr />
+                <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>
+            </div>
+
+        </div>
+    </div>
+</div>

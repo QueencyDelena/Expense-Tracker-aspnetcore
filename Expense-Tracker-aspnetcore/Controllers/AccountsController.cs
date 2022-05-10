@@ -32,7 +32,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
                 .Select(x => new Account()
                 {
                     AccountID = x.Key,
-                    Balance = Convert.ToDecimal(x.Sum(c=>c.Amount))
+                    Balance = Convert.ToDecimal(x.Sum(c => c.Amount))
                 })
                 .AsNoTracking().ToListAsync();
 
@@ -41,7 +41,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             {
                 AccountID = acc.AccountID,
                 Name = acc.Name,
-                Balance = transaction.Where(x => x.AccountID == acc.AccountID).Select(x => x.Balance).FirstOrDefault()
+                Balance = transaction.Where(x => x.AccountID == acc.AccountID).Select(x => x.Balance).FirstOrDefault() + acc.Balance
             });
 
 
@@ -69,7 +69,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // GET: Accounts/Create
         public IActionResult Create()
         {
-            return PartialView();
+            return View();
         }
 
         // POST: Accounts/Create
@@ -160,11 +160,30 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // POST: Accounts/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int[] ids)
         {
-            var account = await _context.Accounts.FindAsync(id);
-            _context.Accounts.Remove(account);
-            await _context.SaveChangesAsync();
+            var accounts = await _context.Accounts
+                .Where(m => ids.Contains(m.AccountID)).ToListAsync();
+
+            var transactions = await _context.Transactions
+                .Where(m => ids.Contains(m.AccountID)).ToListAsync();
+
+            if (accounts == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            try
+            {
+                _context.Accounts.RemoveRange(accounts);
+                _context.Transactions.RemoveRange(transactions);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+
+                return RedirectToAction(nameof(Delete), new { ids, saveChangesError = true });
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

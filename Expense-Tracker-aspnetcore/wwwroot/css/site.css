@@ -71,6 +71,7 @@ body {
 
 .footer {
     position: relative;
+    position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
@@ -137,10 +138,7 @@ body {
 
 
 
-
-/* Themes
---------------------------------------*/
-nav, .orange-theme, .nav-link, .navbar-brand {
+nav, .nav-link, .navbar-brand {
     background-color: #282A35;
     color: #fff8f0;
 }
@@ -149,9 +147,6 @@ a {
     color: #fff8f0;
 }
 
-
-.dark-bg {
-}
 
 .transaction-filter {
     border-radius: 5px 5px;
@@ -168,48 +163,5 @@ a {
 
 
 #transaction-page {
-    /*background-color: #f0f0f0;*/
+    background-color: #f0f0f0;
 }
-/* Custom checkbox
- -------------------------*/
-
-/* Create transaction style
- -------------------------*/
-/*
-.transaction-type-select {
-    height: 44px;
-    border: none;
-    overflow: hidden;
-}
-
-  
-
-    .transaction-type-select:focus {
-        outline: 0;
-    }
-
-    .transaction-type-select option {
-        width: 60px;
-        padding: 10px 0;
-        text-align: center;
-        display: inline-block;
-        cursor: pointer;
-        border: rgb(204, 204, 0) solid 1px;
-        border-radius: 5px;
-        color: rgb(204, 204, 0);
-    }*/
-/*.transaction-type-select option {
-    padding: 5px;
-    border: 1px solid black;
-    background-color: gray;
-}
-.transaction-type a:active {
-    background-color: darkgray;
-}
-.transaction-type-select option:first-child {
-    border-radius: 5px 0 0 5px;
-}
-.transaction-type-select option:last-child {
-    border-radius: 0 5px 5px 0;
-}
-*/

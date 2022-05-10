@@ -4,69 +4,72 @@
     var Categories = Model.Categories;
 }
 
-<div class="container p-4">
-    @*<form asp-action="Index" method="get">*@
-    <div class="d-flex flex-column">
-        @* HEADER *@
-        <h5 class="">Filters</h5>
 
-        @* SEARCH BAR *@
+@*<form asp-action="Index" method="get">*@
+<section class="d-flex flex-column justify-content-between p-4">
+    @* HEADER *@
+
+    <h5 class="">Filters</h5>
+
+
+
+    @* SEARCH BAR *@
+    <div class="">
         <input id="searchBar" type="text" name="SearchString" value="@ViewData["CurrentFilter"]" placeholder="Search..." />
+    </div>
 
-
-        @* DATE FILTER *@
-        <h6 class="mb-3">Date Filter</h6>
+    @* DATE FILTER *@
+    <div class="date-filter">
         <input type="date" id="dateFrom" name="DateFrom" value=@Convert.ToDateTime(ViewData["DateFrom"]).ToString("yyyy-MM-dd") />
         <input type="date" id="dateTo" name="DateTo" value=@Convert.ToDateTime(ViewData["DateTo"]).ToString("yyyy-MM-dd") />
+    </div>
+    @* ACCOUNT FILTER *@
+    <div class="mb-4 mt-4" id="filter-account">
+        <table>
+            <tr class="border-bottom">
+                <td class="col-1"><input type="checkbox" checked class="select-all" /> </td>
+                <td class="col">All Accounts</td>
+            </tr>
+            <tbody>
+                @foreach (var account in Accounts)
+                {
+                    <tr class="">
+                        <td class="col-1 checkbox">
+                            <input type="checkbox" checked value="" class="select-account" data-id="@account.AccountID" />
+                        </td>
+                        <td class="col ">@account.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 
-        @* ACCOUNT FILTER *@
-        <div class="row mb-4 mt-4">
-            <table>
-                <tr class="border-bottom">
-                    <td class="col-1"><input type="checkbox" checked class="select-all-accounts" /> </td>
-                    <td class="col">All Accounts</td>
-                </tr>
-                <tbody>
-                    @foreach (var account in Accounts)
-                    {
-                        <tr class="">
-
-                            <td class="col-1 checkbox">
-                                <input type="checkbox" checked value="" class="select-accounts" data-id="@account.AccountID" />
-                            </td>
-                            <td class="col ">@account.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-        @* CATEGORY FILTER *@
-        <div class="row mb-4 mt-4">
-            <table>
-                <tr class="border-bottom">
-                    <td class="col-1"><input type="checkbox" checked class="select-all-categories" /> </td>
-                    <td class="col">All Categories</td>
-                </tr>
-                <tbody>
-                    @foreach (var category in Categories)
-                    {
-                        <tr class="">
-                            <td class="col-1"><input type="checkbox" checked value="" class="select-categories" data-id="@category.CategoryID" /> </td>
-                            <td class="col ">@category.Name</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-
-
-        @* SUBMIT *@
-        <div class="col"><button id="filter-transaction" value="Filter" class="btn btn-dark fa-solid fa-chart-pie">Filter</button></div>
-
+    @* CATEGORY FILTER *@
+    <div class="mb-4 mt-4" id="filter-category">
+        <table>
+            <tr class="border-bottom">
+                <td class="col-1"><input type="checkbox" checked class="select-all" /> </td>
+                <td class="col">All Categories</td>
+            </tr>
+            <tbody>
+                @foreach (var category in Categories)
+                {
+                    <tr>
+                        <td class="col-1"><input type="checkbox" checked value="" class="select-category" data-id="@category.CategoryID" /> </td>
+                        <td class="col ">@category.Name</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
 
-    @*</form>*@
-</div>
+    @* SUBMIT *@
+    <div class="col"><button id="filter-transaction" value="Filter" class="btn btn-dark fa-solid fa-chart-pie">Filter</button></div>
+
+</section>
+
+
+@*</form>*@
+
 

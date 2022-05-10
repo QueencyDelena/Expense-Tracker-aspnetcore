@@ -12,6 +12,10 @@
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 </head>
 <body id=@ViewData["PageId"]>
+    @using (Html.BeginForm(null, null, FormMethod.Post, new { id = "__AjaxAntiForgeryForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 pb-2 pt-2">
             <div class="container">
@@ -32,7 +36,7 @@
                             <a class="nav-link" asp-area="" asp-controller="Categories" asp-action="Index">Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav flex-grow-1 flex-sm-row-reverse">

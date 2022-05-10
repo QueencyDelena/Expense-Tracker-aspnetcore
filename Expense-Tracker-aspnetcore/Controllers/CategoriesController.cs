@@ -22,7 +22,29 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // GET: Categories
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Categories.ToListAsync());
+            var categories = await
+                _context.Categories
+                .AsNoTracking().ToListAsync();
+
+            var transaction = await
+                _context.Transactions
+                .GroupBy(trx => trx.CategoryID)
+                .Select(x => new Category()
+                {
+                    CategoryID = x.Key,
+                    Balance = Convert.ToDecimal(x.Sum(c => c.Amount))
+                })
+                .AsNoTracking().ToListAsync();
+
+
+            var categoriesSummary = categories.Select(cat => new Category
+            {
+                CategoryID = cat.CategoryID,
+                Name = cat.Name,
+                Balance = transaction.Where(x => x.CategoryID  == cat.CategoryID).Select(x => x.Balance).FirstOrDefault()
+            });
+
+            return View(categoriesSummary);
         }
 
         // GET: Categories/Details/5

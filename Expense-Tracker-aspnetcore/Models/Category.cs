@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
+using System.ComponentModel.DataAnnotations;
 namespace Expense_Tracker_aspnetcore.Models
 {
     public class Category
@@ -13,6 +13,8 @@ namespace Expense_Tracker_aspnetcore.Models
 
         public string Name { get; set; }
 
-        public bool Selected { get; set; } = true;
+
+        [DataType(DataType.Currency)]
+        public decimal Balance { get; set; } = 0;
     }
 }
