@@ -16,7 +16,6 @@
     </section>
 
 
-
     <!-- DATE FILTER  -->
     <section id="filter-date" class="my-3">
         <h6 class="mt-2 mb-2">Date Range</h6>
@@ -77,7 +76,7 @@
                     @foreach (var category in Categories)
                     {
                         <div class="form-check">
-                            <input id="cat-@category.CategoryID"class="form-check-input chk-category" type="checkbox" value="" data-id="@category.CategoryID">
+                            <input id="cat-@category.CategoryID" class="form-check-input chk-category" type="checkbox" value="" data-id="@category.CategoryID">
                             <label class="form-check-label" for="cat-@category.CategoryID">
                                 @category.Name
                             </label>
@@ -89,8 +88,10 @@
     </section>
 
 
-    @* SUBMIT *@
-    <button id="filter-transaction" value="Filter" class="btn btn-dark m-3">Filter</button>
+    <!-- SUBMIT -->
+    <section class="d-flex flex-row-reverse">
+        <button id="filter-transaction" value="Filter" class="btn btn-dark">Filter</button>
+    </section>
 
 </article>
 

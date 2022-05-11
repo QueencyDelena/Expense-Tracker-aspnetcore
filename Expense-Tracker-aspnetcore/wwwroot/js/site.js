@@ -1,16 +1,17 @@
 ﻿function FilterTransactions() {
     var accountList = new Array();
-    $('#filter-account .select-account').each(function () {
+    $('.chk-account').each(function () {
         if ($(this).is(":checked")) {
             accountList.push($(this).attr('data-id'));
         }
     });
     var categoryList = new Array();
-    $('#filter-category .select-category').each(function () {
+    $('.chk-category').each(function () {
         if ($(this).is(":checked")) {
             categoryList.push($(this).attr('data-id'));
         }
     });
+
     var searchString = $('#searchBar').val();
 
     var dateFrom = $('#dateFrom').val();
