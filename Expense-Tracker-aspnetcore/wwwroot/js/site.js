@@ -132,8 +132,8 @@ function TransactionPageScript() {
         var url = "/Transactions/Edit";
 
         $.get(url + '/' + id, function (data) {
-            $('#transaction-table-container').html(data);
-            $('#transaction-table-modal').modal('show');
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
         });
     });
 
