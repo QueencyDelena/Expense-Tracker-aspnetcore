@@ -9,20 +9,13 @@
     var Transactions = Model.Transactions;
 }
 <div id="transaction-page">
-    <div class="d-flex" id="transaction-filter">
-        @* FILTER *@
-        <div class="flex-shrink-1 mr-5 mt-3 mb-5 transaction-filter d-none d-lg-block" id="collapseFilter">
-            @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
-        </div>
+    <div class="d-flex">
+        <!-- FILTER  -->
+        @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
 
+        <!-- TRANSACTION TABLE  -->
+        @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
 
-        <div class="flex-grow-1 ml-5 mr-5 mb-5 mt-3">
-            @* TRANSACTION TABLE *@
-            <div id="transaction-table">
-            @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
-            </div>
-
-        </div>
     </div>
 
 
@@ -34,7 +27,7 @@
             </div>
         </div>
     </div>
-    
-    
+
+
 
 </div>

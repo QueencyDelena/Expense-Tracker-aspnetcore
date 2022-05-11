@@ -2,109 +2,102 @@
 @{
     var Transactions = Model.Transactions;
 }
-<div class="row ">
-    @* CREATE TRANSACTION *@
-    <div class="col d-flex m-2 p-0 flex-row-reverse">
-        <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
-        <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
-    </div>
-</div>
 
-<div class="row">
-    <table class="table table-borderless transactions-table">
-        <thead class="bg-primary">
-            <tr>
-                <th class="p-2 align-middle text-center">
-                    @if (Transactions.Count != 0)
+<div id="transaction-table" class="w-100 m-5 mt-1">
+    <div class="d-flex flex-column">
+
+        @* CREATE TRANSACTION *@
+        <div class="d-flex flex-row-reverse m-2 p-0">
+            
+                <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+                <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
+            
+        </div>
+
+        <table class="table table-borderless transactions-table">
+            <thead class="bg-primary">
+                <tr>
+                    <th class="p-2 align-middle text-center">
+                        @if (Transactions.Count != 0)
+                        {
+                            <input type="checkbox" class="select-all" value="" />
+                        }
+                    </th>
+                    <th colspan="2" class="p-0 align-middle flex-column-reverse">
+                        <div class="header-buttons">
+                            <button class="delete-selected-transactions btn button btn-danger p-0 pl-1 pr-1" hidden><i class="fa fa-trash"></i> Delete </button>
+                            <button class="cancel-select btn button btn-dark p-0 pl-1 pr-1" hidden> Unselect All</button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    DateTime date = DateTime.Today.Date;
+
+                    int ctr = 0;
+                    foreach (var item in Transactions)
                     {
-                        <input type="checkbox" class="select-all" value="" />
-                    }
-                </th>
-                <th colspan="2" class="p-0 align-middle flex-column-reverse">
-                    <div class="header-buttons">
-                        <button class="delete-selected-transactions btn button btn-danger p-0 pl-1 pr-1" hidden><i class="fa fa-trash"></i> Delete </button>
-                        <button class="cancel-select btn button btn-dark p-0 pl-1 pr-1" hidden> Unselect All</button>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @{
-                DateTime date = DateTime.Today.Date;
+                        ctr++;
+                        if (ctr == 1)
+                            date = Transactions.FirstOrDefault().PostDate.Date;
 
-                int ctr = 0;
-                foreach (var item in Transactions)
-                {
-                    ctr++;
-                    if (ctr == 1)
-                        date = Transactions.FirstOrDefault().PostDate.Date;
+                        if (date != item.PostDate.Date || ctr == 1)
+                        {
+                            <tr class="transaction-header">
+                                <td colspan="4">
+                                    <b>@item.PostDate.ToString("MMMM d, yyyy")</b>
+                                </td>
+                            </tr>
+                            date = item.PostDate.Date;
+                        }
 
-                    if (date != item.PostDate.Date || ctr == 1)
-                    {
-                        <tr class="transaction-header">
-                            <td colspan="4">
-                                <b>@item.PostDate.ToString("MMMM d, yyyy")</b>
+                        <tr data-id="@item.TransactionID" class="transaction edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
+                            <td class="align-middle p-0 m-0 text-center">
+                                <input class="select-transaction" type="checkbox" name="name" value="" />
+                            </td>
+
+                            <td class="pt-2 pb-2">
+                                <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
+                                <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
+                            </td>
+                            <td class="p-2 text-right">
+                                <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>
+                                <p class="p-0 m-0">@Html.DisplayFor(modelItem => item.Account.Name)</p>
                             </td>
                         </tr>
-                        date = item.PostDate.Date;
                     }
 
-                    <tr data-id="@item.TransactionID" class="transaction edit-transaction" data-toggle="modal" data-target="#submitModal" asp-action="Edit">
-                        <td class="align-middle p-0 m-0 text-center">
-                            <input class="select-transaction" type="checkbox" name="name" value="" />
-                        </td>
-
-                        <td class="pt-2 pb-2">
-                            <h6 class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Name)</h6>
-                            <p class="align-middle p-0 m-0">@Html.DisplayFor(modelItem => item.Category.Name)</p>
-                        </td>
-                        <td class="p-2 text-right">
-                            <h6 class="p-0 m-0">@Html.DisplayFor(modelItem => item.Amount)</h6>
-                            <p class="p-0 m-0">@Html.DisplayFor(modelItem => item.Account.Name)</p>
-                        </td>
-
-                        @*<td class="transaction-menu text-right">
-                            <div class="btn-group">
-                                <button type="button" class="btn p-0 m-0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa-solid fa-ellipsis-vertical p-1"></i>
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" href="#">Edit <i class="fa fa-trash"></i></a>
-                                    <a class="dropdown-item delete-transaction">Delete <i class="fa fa-trash"></i></a>
-                                </div>
-                            </div>
-                        </td>*@
-                    </tr>
+                    @if (Transactions.Count == 0)
+                    {
+                        <tr>
+                            <td>No data to display</td>
+                        </tr>
+                    }
                 }
+            </tbody>
+        </table>
 
-                @if (Transactions.Count == 0)
-                {
-                    <tr>
-                        <td>No data to display</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>
+        @{
+            var prevDisabled = !Transactions.HasPreviousPage ? "disabled" : "";
+            var nextDisabled = !Transactions.HasNextPage ? "disabled" : "";
+        }
+        <div class="">
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Transactions.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @prevDisabled">
+                Previous
+            </a>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-pageNumber="@(Transactions.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               class="btn btn-default @nextDisabled">
+                Next
+            </a>
+        </div>
 
-    @{
-        var prevDisabled = !Transactions.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Transactions.HasNextPage ? "disabled" : "";
-    }
-    <div class="row">
-        <a asp-action="Index"
-           asp-route-sortOrder="@ViewData["CurrentSort"]"
-           asp-route-pageNumber="@(Transactions.PageIndex - 1)"
-           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-           class="btn btn-default @prevDisabled">
-            Previous
-        </a>
-        <a asp-action="Index"
-           asp-route-sortOrder="@ViewData["CurrentSort"]"
-           asp-route-pageNumber="@(Transactions.PageIndex + 1)"
-           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-           class="btn btn-default @nextDisabled">
-            Next
-        </a>
     </div>
 </div>

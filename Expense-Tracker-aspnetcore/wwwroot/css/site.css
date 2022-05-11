@@ -37,8 +37,9 @@ html {
 }
 
 h6 {
-    margin:0;
+    margin: 0;
 }
+
 .border-top {
     border-top: 1px solid #e5e5e5;
 }
@@ -71,7 +72,7 @@ body {
 
 .footer {
     position: relative;
-    position: absolute;
+    /*position: absolute;*/
     bottom: 0;
     width: 100%;
     white-space: nowrap;
@@ -85,7 +86,7 @@ body {
 
 /* Transactions Table 
 -------------------------------------*/
-.create-transaction{
+.create-transaction {
     /*background-color: #04AA6D;*/
 }
 
@@ -143,12 +144,12 @@ nav, .nav-link, .navbar-brand {
     color: #fff8f0;
 }
 
-a {
+/*a {
     color: #fff8f0;
-}
+}*/
 
 
-.transaction-filter {
+#transaction-filter {
     border-radius: 5px 5px;
     background-color: #FDFDFD;
     /*border: 1px solid #6b6b6b;*/
@@ -164,4 +165,21 @@ a {
 
 #transaction-page {
     background-color: #f0f0f0;
+}
+
+.date-filter {
+    font-size: 1rem;
+}
+
+#filter-category a:link {
+    text-decoration: none;
+    color: black;
+}
+#filter-category .card-header, #filter-category .card-body {
+    padding: 0;
+    margin: 0;
+}
+
+#transaction-filter input[type='date'] {
+    font-size: 0.9rem;
 }

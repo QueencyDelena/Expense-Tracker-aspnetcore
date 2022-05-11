@@ -36,11 +36,33 @@
 }
 
 function TransactionPageScript() {
-    $("#filter-category .select-all").click(function () {
-        $("#filter-category .select-category").prop('checked', this.checked);
+    
+
+    $("#chk-all-account").click(function () {
+        $('.select-account').each(function () {
+            if ($(this).is(":checked")) {
+                $(this).prop('checked', false);
+            }
+        });
     });
-    $("#filter-account .select-all").click(function () {
-        $('#filter-account .select-account').prop('checked', this.checked);
+    $(".chk-account").change(function () {
+        if ($('.chk-account').length > 0) {
+            $("#chk-all-account").prop('checked', false);
+        }
+    });
+
+
+    $("#chk-all-category").click(function () {
+        $('.chk-category').each(function () {
+            if ($(this).is(":checked")) {
+                $(this).prop('checked', false);
+            }
+        });
+    });
+    $(".chk-category").change(function () {
+        if ($('.chk-category').length > 0) {
+            $("#chk-all-category").prop('checked', false);
+        }
     });
 
 
