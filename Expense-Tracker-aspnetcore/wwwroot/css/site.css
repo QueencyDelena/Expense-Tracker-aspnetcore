@@ -153,7 +153,7 @@ nav, .nav-link, .navbar-brand {
     border-radius: 5px 5px;
     background-color: #FDFDFD;
     /*border: 1px solid #6b6b6b;*/
-    box-shadow: #6b6b6b 2px 2px 3px;
+    /*box-shadow: #6b6b6b 2px 2px 3px;*/
 }
 
 
@@ -165,6 +165,7 @@ nav, .nav-link, .navbar-brand {
 
 #transaction-page {
     background-color: #f0f0f0;
+    background-color: #ededed;
 }
 
 .date-filter {

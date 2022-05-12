@@ -31,7 +31,7 @@
         },
         success: function (result) {
             $("#transaction-table").html(result);
-            TransactionTableScript();
+            TransactionPageScript();
         }
     });
 }
@@ -117,8 +117,8 @@ function TransactionPageScript() {
     $('.create-transaction').click(function () {
         var url = "/Transactions/Create"; // the url to the controller
         $.get(url, function (data) {
-            $('#transaction-table-container').html(data);
-            $('#transaction-table-modal').modal('show');
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
             $.validator.unobtrusive.parse("#transaction-table-modal");
         });
     });
@@ -143,8 +143,8 @@ function TransactionPageScript() {
         var url = "/Transactions/Delete";
 
         $.get(url + '/' + id, function (data) {
-            $('#transaction-table-container').html(data);
-            $('#transaction-table-modal').modal('show');
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
         });
     });
 

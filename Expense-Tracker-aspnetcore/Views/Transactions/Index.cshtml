@@ -8,17 +8,14 @@
 @{
     var Transactions = Model.Transactions;
 }
-<div id="transaction-page">
-    <div class="d-flex">
-        <!-- FILTER  -->
-        @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
+<div id="transaction-page" class="d-flex flex-row">
 
-        <!-- TRANSACTION TABLE  -->
-        @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
-
-    </div>
-
-
+    <!-- FILTER  -->
+    @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
     
+
+    <!-- TABLE  -->
+    @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
+
 
 </div>

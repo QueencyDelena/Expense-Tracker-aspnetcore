@@ -218,8 +218,8 @@ namespace Expense_Tracker_aspnetcore.Controllers
             ViewData["TransactionType"] = new SelectList(transactionType, "Name", "Name", "Expense");
 
 
-            return PartialView("~/Views/PartialViews/_CreateTransaction.cshtml");
-            //return View();
+            
+            return View();
         }
 
         [HttpPost]
@@ -271,7 +271,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
             ViewData["TransactionType"] = new SelectList(transactionType, "Name", "Name", transaction.TransactionType);
 
 
-            return PartialView("~/Views/PartialViews/_EditTransaction.cshtml", transaction);
+            return View(transaction);
             //return View(transaction);
         }
 
