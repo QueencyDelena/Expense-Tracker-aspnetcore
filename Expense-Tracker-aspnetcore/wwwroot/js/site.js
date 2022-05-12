@@ -37,7 +37,7 @@
 }
 
 function TransactionPageScript() {
-    
+
 
     $("#chk-all-account").click(function () {
         $('.select-account').each(function () {
@@ -47,8 +47,11 @@ function TransactionPageScript() {
         });
     });
     $(".chk-account").change(function () {
-        if ($('.chk-account').length > 0) {
+        if ($('.chk-account:checked').length > 0) {
             $("#chk-all-account").prop('checked', false);
+        }
+        else if ($('.chk-account:checked').length == 0) {
+            $("#chk-all-account").prop('checked', true);
         }
     });
 
@@ -61,10 +64,14 @@ function TransactionPageScript() {
         });
     });
     $(".chk-category").change(function () {
-        if ($('.chk-category').length > 0) {
+        if ($('.chk-category:checked').length > 0) {
             $("#chk-all-category").prop('checked', false);
         }
+        else if ($('.chk-category:checked').length == 0) {
+            $("#chk-all-category").prop('checked', true);
+        }
     });
+
 
 
     /*Header-Button Toggle*/
