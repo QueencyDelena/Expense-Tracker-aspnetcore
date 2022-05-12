@@ -32,6 +32,7 @@
         success: function (result) {
             $("#transaction-table").html(result);
             TransactionPageScript();
+            FilterScript();
         }
     });
 }
@@ -368,16 +369,7 @@ function CategoryTableScript() {
 
     });
 }
-
-$(document).ready(function () {
-    /*TRANSACTIONS PAGE ====================================*/
-    TransactionPageScript();
-
-    /*Deselect-All Toggle*/
-
-
-
-    /*On Checkbox Change*/
+function FilterScript() {
     $(".select-accounts, .select-categories").change(function () {
         var $this = $(this);
 
@@ -407,6 +399,12 @@ $(document).ready(function () {
     $("#filter-transaction").click(function () {
         FilterTransactions();
     });
+}
+$(document).ready(function () {
+    /*TRANSACTIONS PAGE ====================================*/
+    TransactionPageScript();
+
+    FilterScript();
 
 
     AccountTableScript();

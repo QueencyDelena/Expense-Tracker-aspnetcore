@@ -72,7 +72,7 @@ body {
 
 .footer {
     position: relative;
-    /*position: absolute;*/
+    position: absolute;
     bottom: 0;
     width: 100%;
     white-space: nowrap;
@@ -94,7 +94,7 @@ body {
     height: 3vmax;
     background-color: #282A35;
     /*background-color: #04AA6D;*/
-    color: #fff8f0;
+    color: #ededed;
 }
 
 .transactions-table {
@@ -109,6 +109,7 @@ body {
 .transaction-header {
     border-spacing: 0px;
     background-color: #edf5e1;
+    background-color: #ededed;
     /*font-size: 5vmin;*/
 }
 
@@ -120,33 +121,11 @@ body {
 }
 
 
-
-
-/*.transaction-header td:first-child {
-    border-radius: 5px 0 0 5px;*/
-/*border-left: 1px solid gray;*/
-/*background-color: #FFA347;*/
-/*}
-
-.transaction-header td:last-child {
-    border-radius: 0 5px 5px 0;*/
-/*border-right: 1px solid gray;*/
-/*}*/
-
 .transaction:hover {
     background-color: #edf5e1;
 }
 
 
-
-nav, .nav-link, .navbar-brand {
-    background-color: #282A35;
-    color: #fff8f0;
-}
-
-/*a {
-    color: #fff8f0;
-}*/
 
 
 #transaction-filter {
@@ -162,10 +141,9 @@ nav, .nav-link, .navbar-brand {
 .main-body {
 }
 
-
-#transaction-page {
+body {
     background-color: #f0f0f0;
-    background-color: #ededed;
+    background-color: #e3e3e3;
 }
 
 .date-filter {
@@ -184,9 +162,15 @@ nav, .nav-link, .navbar-brand {
 #transaction-filter input[type='date'] {
     font-size: 0.9rem;
 }
-input[type="date"]::-webkit-inner-spin-button,
+/*input[type="date"]::-webkit-inner-spin-button,
 input[type="date"]::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
 }
 
+*/
+
+nav {
+    background-color: #282A35;
+    color: #fff8f0;
+}

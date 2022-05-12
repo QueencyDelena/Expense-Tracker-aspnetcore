@@ -8,14 +8,45 @@
 @{
     var Transactions = Model.Transactions;
 }
-<div id="transaction-page" class="d-flex flex-row">
+<div id="transaction-page" class="px-5">
+    <div class="container row my-3">
 
-    <!-- FILTER  -->
-    @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
-    
+        @* CREATE TRANSACTION *@
+        <header class="col"><h3>Transactions</h3></header>
+        <div class="col d-flex flex-row justify-content-end my-2">
 
-    <!-- TABLE  -->
-    @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
+            <div class="dropstart">
+                <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-filter"></i>
+                </button>
+                <div class="dropdown-menu dropstart">
+                    @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
+                </div>
+            </div>
+            <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">ADD</button>
 
+
+        </div>
+
+        @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
+
+        <div id="delete-transaction-modal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h3>Are you sure you want to delete selected transaction?</h3>
+                    </div>
+                    <div class="modal-footer">
+                        <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>

@@ -100,7 +100,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
                 Transactions = await PaginatedList<Transaction>.CreateAsync(transactions.AsNoTracking(), pageNumber ?? 1, pageSize)
             };
 
-            return PartialView("~/Views/PartialViews/_TransactionTable.cshtml", transactionViewModel);
+            return View("~/Views/PartialViews/_TransactionTable.cshtml", transactionViewModel);
         }
 
         // GET: Transactions
