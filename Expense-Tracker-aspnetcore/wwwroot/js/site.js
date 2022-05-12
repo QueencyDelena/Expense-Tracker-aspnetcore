@@ -126,7 +126,7 @@ function TransactionPageScript() {
         $.get(url, function (data) {
             $('#modal-container').html(data);
             $('#modal').modal('show');
-            $.validator.unobtrusive.parse("#transaction-table-modal");
+            $.validator.unobtrusive.parse("#modal-container");
         });
     });
 
@@ -141,18 +141,14 @@ function TransactionPageScript() {
         $.get(url + '/' + id, function (data) {
             $('#modal-container').html(data);
             $('#modal').modal('show');
+            $.validator.unobtrusive.parse("#modal-container");
         });
     });
 
 
     /* Delete Transaction------------------------*/
     $(".delete-selected-transactions").click(function () {
-        var url = "/Transactions/Delete";
-
-        $.get(url + '/' + id, function (data) {
-            $('#modal-container').html(data);
-            $('#modal').modal('show');
-        });
+        $('#delete-transaction-modal').modal('show');
     });
 
     $(".confirm-delete").click(function () {

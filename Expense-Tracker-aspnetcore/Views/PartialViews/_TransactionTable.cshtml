@@ -8,10 +8,10 @@
 
         @* CREATE TRANSACTION *@
         <div class="d-flex flex-row-reverse m-2 p-0">
-            
-                <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
-                <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
-            
+
+            <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+            <button class="btn btn-dark btn-sm fa-solid fa-filter d-lg-none" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="false" aria-controls="collapseFilter" />
+
         </div>
 
         <table class="table table-borderless transactions-table">
@@ -98,6 +98,24 @@
                 Next
             </a>
         </div>
-
     </div>
 </div>
+
+    <div id="delete-transaction-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <h3>Are you sure you want to delete selected transaction?</h3>
+                </div>
+                <div class="modal-footer">
+                    <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
