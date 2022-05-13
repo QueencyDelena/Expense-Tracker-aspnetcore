@@ -173,14 +173,15 @@ function TransactionPageScript() {
 }
 
 function AccountTableScript() {
+    
+           
     $(".select-accounts").change(function () {
         if ($('.select-accounts:checked').length > 0) {
-            $('#header-buttons button').attr("hidden", false);
+            $("#header-buttons").css("visibility", "visible")
         }
         else {
-            $('#header-buttons button').attr("hidden", true);
+            $("#header-buttons").css("visibility", "hidden")
         }
-
 
         if ($('.select-accounts:checked').length == $('.select-accounts').length) {
             $('.select-all-accounts').prop('checked', this.checked);
@@ -196,16 +197,17 @@ function AccountTableScript() {
         if ($this.hasClass("cancel-select")) {
             $('.select-accounts').prop('checked', false);
             $('.select-all-accounts').prop('checked', false);
-            $('#header-buttons button').attr("hidden", true);
+            $("#header-buttons").css("visibility", "hidden")
+
         }
         else if ($this.hasClass("select-all-accounts")) {
             if ($(this).is(":checked")) {
                 $('.select-accounts').prop('checked', this.checked);
-                $('#header-buttons button').attr("hidden", false);
+                $("#header-buttons ").css("visibility", "visible")
             }
             else {
                 $('.select-accounts').prop('checked', false);
-                $('#header-buttons button').attr("hidden", true);
+                $("#header-buttons ").css("visibility", "hidden")
             }
         }
     });
@@ -226,9 +228,9 @@ function AccountTableScript() {
     $('.create-account').click(function () {
         var url = "/Accounts/Create"; // the url to the controller
         $.get(url, function (data) {
-            $('#accounts-page-container').html(data);
-            $('#accounts-page-modal').modal('show');
-            $.validator.unobtrusive.parse("#accounts-page-modal");
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
+            $.validator.unobtrusive.parse("#modal-container");
         });
     });
 
@@ -251,7 +253,7 @@ function AccountTableScript() {
 
     /* Delete Transaction------------------------*/
     $(".delete-selected-accounts").click(function () {
-        $('#delete-accounts-modal').modal('show');
+        $('#delete-account-modal').modal('show');
     });
 
     $(".confirm-delete").click(function () {
@@ -400,8 +402,10 @@ function FilterScript() {
         FilterTransactions();
     });
 }
+
 $(document).ready(function () {
     /*TRANSACTIONS PAGE ====================================*/
+    
     TransactionPageScript();
 
     FilterScript();

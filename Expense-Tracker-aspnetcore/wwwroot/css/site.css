@@ -97,7 +97,7 @@ body {
     color: #ededed;
 }
 
-.transactions-table {
+table {
     background-color: #f5f5f5;
     border: 1px solid lightgray;
 }
@@ -144,6 +144,7 @@ body {
 body {
     background-color: #f0f0f0;
     background-color: #e3e3e3;
+    background-color: #ebebeb;
 }
 
 .date-filter {

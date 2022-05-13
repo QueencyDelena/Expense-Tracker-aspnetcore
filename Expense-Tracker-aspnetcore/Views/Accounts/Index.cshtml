@@ -4,50 +4,68 @@
     ViewData["Title"] = "Accounts";
 }
 
-<div class="container ">
-    <h3>Accounts</h3>
-    <div class="d-flex flex-column">
-        <div>
-            <div class="d-flex justify-content-between">
-                <div id="header-buttons">
-                    <button class="delete-selected-accounts btn button btn-danger p-0 pl-1 pr-1" hidden><i class="fa fa-trash"></i> Delete </button>
-                    <button class="cancel-select btn button btn-dark p-0 pl-1 pr-1" hidden> Unselect All</button>
+<div id="accounts-page" class="px-5">
+    <div class="mt-4 d-flex flex-row justify-content-between">
+        <header class="col"><h3>Accounts</h3></header>
+        <div class="col d-flex flex-row justify-content-end my-2">
+            <button class="btn btn-primary btn-sm create-account" data-toggle="modal" asp-action="Create">+</button>
+        </div>
+    </div>
+    <table class="table table-borderless border border-secondary" id="accounts-table">
+        <thead class="bg-success text-white">
+            <tr>
+                <th class="p-2 align-middle text-center">
+                    <input type="checkbox" class="select-all-accounts" value="" />
+                </th>
+                <th colspan="2">
+                    <div id="header-buttons" style="visibility: hidden;" class="d-flex justify-content-start">
+                        <button class="delete-selected-accounts btn button btn-danger btn-sm p-0 px-1"><i class="fa fa-trash"></i> Delete </button>
+                        <button class="cancel-select btn button btn-dark btn-sm p-0 px-1"> Unselect All</button>
+                    </div>
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr data-id="@item.AccountID" class="edit-accounts">
+                    <td class="align-middle p-0 m-0 text-center">
+                        <input class="select-accounts" type="checkbox" name="name" value="" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Balance)
+                    </td>
+                </tr>
+            }
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td>No data to display</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div id="delete-account-modal" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <button class="btn btn-primary btn-sm create-account" data-toggle="modal" asp-action="Create">+</button>
+                <div class="modal-body">
+                    <h3>Are you sure you want to delete selected account?</h3>
+                    <h5 class="text-danger">Transactions in the account will also be deleted.</h5>
+                </div>
+                <div class="modal-footer">
+                    <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
             </div>
-
-            <table class="table table-borderless border bg-white" id="accounts-table">
-                <thead class="bg-primary text-white">
-                    <tr>
-                        <th class="p-2 align-middle text-center">
-                            <input type="checkbox" class="select-all-accounts" value="" />
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Balance)
-                        </th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr data-id="@item.AccountID" class="edit-accounts">
-                            <td class="align-middle p-0 m-0 text-center">
-                                <input class="select-accounts" type="checkbox" name="name" value="" />
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Name)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Balance)
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
         </div>
     </div>
 </div>
