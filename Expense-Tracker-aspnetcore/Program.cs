@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Expense_Tracker_aspnetcore.Data;
 using Microsoft.Extensions.DependencyInjection;
-using Azure.Identity;
+
 
 namespace Expense_Tracker_aspnetcore
 {
@@ -41,11 +41,7 @@ namespace Expense_Tracker_aspnetcore
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args).ConfigureAppConfiguration((context, config) =>
-{
-    var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-    config.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
-})
+              Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
