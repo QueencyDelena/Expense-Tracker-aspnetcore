@@ -8,7 +8,6 @@ namespace Expense_Tracker_aspnetcore.Models
 {
     public class Summary
     {
-        public int UserID { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? DateFrom { get; set; }

@@ -11,9 +11,7 @@ namespace Expense_Tracker_aspnetcore.Models
     {
         public int AccountID { get; set; }
 
-        public int UserID { get; set; }
-
-        
+ 
         public string Name { get; set; }
 
         [DataType(DataType.Currency)]

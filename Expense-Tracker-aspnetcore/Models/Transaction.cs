@@ -9,7 +9,6 @@ namespace Expense_Tracker_aspnetcore.Models
 {   
     public class Transaction
     {
-        public int UserID { get; set; }
         public int TransactionID { get; set; }
 
 
