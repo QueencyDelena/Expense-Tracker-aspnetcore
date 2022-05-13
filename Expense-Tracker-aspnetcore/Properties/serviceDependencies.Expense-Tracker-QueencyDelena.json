@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "mssql1": {
+    "mssql2": {
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/expensetrackerserver/databases/ExpenseTracker_db",
       "type": "mssql.azure",
       "connectionId": "ConnectionStrings:DefaultConnection",
