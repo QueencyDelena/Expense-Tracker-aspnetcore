@@ -32,7 +32,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
                 .Select(x => new Account()
                 {
                     AccountID = x.Key,
-                    Balance = Convert.ToDecimal(x.Sum(c => c.Amount))
+                    Balance = (x.Sum(c => c.Amount))
                 })
                 .AsNoTracking().ToListAsync();
 

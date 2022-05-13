@@ -17,7 +17,7 @@ namespace Expense_Tracker_aspnetcore.Models
         public string Name { get; set; }
 
         [DataType(DataType.Currency)]
-        public decimal Balance { get; set; } = 0;
+        public float Balance { get; set; } = 0;
 
 
     }

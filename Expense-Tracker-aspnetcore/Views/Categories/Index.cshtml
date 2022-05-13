@@ -4,70 +4,73 @@
     ViewData["Title"] = "Categories";
 }
 
-
-
-<h3>Categories</h3>
-
-<div class="d-flex justify-content-between">
-    <div id="header-buttons">
-        <button class="delete-selected-category btn button btn-danger p-0 pl-1 pr-1" hidden><i class="fa fa-trash"></i> Delete </button>
-        <button class="cancel-select btn button btn-dark p-0 pl-1 pr-1" hidden> Unselect All</button>
-    </div>
-    <button class="btn btn-primary btn-sm create-category" data-toggle="modal" asp-action="Create">+</button>
-</div>
-
-<table class="table table-borderless" id="category-table">
-    <thead class="bg-primary text-white">
-        <tr>
-            <th class="p-2 align-middle text-center">
-                <input type="checkbox" class="select-all-category" value="" />
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Balance)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr data-id="@item.CategoryID" class="edit-category">
-                <td class="align-middle p-0 m-0 text-center">
-                    <input class="select-category" type="checkbox" name="name" value="" />
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Balance)
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<div class="modal fade" id="categories-page-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div id="categories-page-container"></div>
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="delete-category-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <h1>Confirm Delete</h1>
-
-            <h3>Are you sure you want to delete selected categories?</h3>
-            <h5 class="text-danger">Deleting categories will also delete transactions associated with it.</h5>
-
-            <div>
-                <h4>Transaction</h4>
-                <hr />
-                <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>
+<div id="category-page" class="px-5">
+    <div class="container">
+        <h3 class="my-3">Categories</h3>
+        <div class="d-flex flex-row justify-content-between my-2">
+            <div id="header-buttons" style="visibility: hidden;" class="d-flex justify-content-start">
+                <button class="delete-selected-category btn button btn-danger btn-sm p-0 px-1"><i class="fa fa-trash"></i> Delete </button>
+                <button class="cancel-select btn button btn-dark btn-sm p-0 px-1"> Unselect All</button>
             </div>
+            <button class="btn btn-sm btn-primary create-category" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+        </div>
 
+        <table class="table table-borderless border-secondary" id="category-table">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th class="p-2 align-middle text-center">
+                        <input type="checkbox" class="select-all-category" value="" />
+                    </th>
+                    <th>
+                        Category Name
+                    </th>
+                    <th>
+                        Balance
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr data-id="@item.CategoryID" class="categories edit-category">
+                        <td class="align-middle p-0 m-0 text-center">
+                            <input class="select-category" type="checkbox" name="name" value="" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Balance)
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count() == 0)
+                {
+                    <tr>
+                        <td>No data to display</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+        <div id="delete-category-modal" class="modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirm Delete</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Are you sure you want to delete selected categories?</h4>
+                        <h6 class="text-danger">Deleting categories will also delete transactions associated with it.</h6>
+                    </div>
+                    <div class="modal-footer">
+                        <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

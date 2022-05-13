@@ -32,7 +32,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
                 .Select(x => new Category()
                 {
                     CategoryID = x.Key,
-                    Balance = Convert.ToDecimal(x.Sum(c => c.Amount))
+                    Balance = (x.Sum(c => c.Amount))
                 })
                 .AsNoTracking().ToListAsync();
 
@@ -159,11 +159,30 @@ namespace Expense_Tracker_aspnetcore.Controllers
         // POST: Categories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int[] ids)
         {
-            var category = await _context.Categories.FindAsync(id);
-            _context.Categories.Remove(category);
-            await _context.SaveChangesAsync();
+            var categories = await _context.Categories
+             .Where(m => ids.Contains(m.CategoryID)).ToListAsync();
+
+            var transactions = await _context.Transactions
+                .Where(m => ids.Contains(m.CategoryID)).ToListAsync();
+
+            if (categories == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            try
+            {
+                _context.Categories.RemoveRange(categories);
+                _context.Transactions.RemoveRange(transactions);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+
+                return RedirectToAction(nameof(Delete), new { ids, saveChangesError = true });
+            }
+
             return RedirectToAction(nameof(Index));
         }
 

@@ -98,7 +98,7 @@ body {
 }
 
 table {
-    background-color: #f5f5f5;
+    background-color: white;
     border: 1px solid lightgray;
 }
 
@@ -125,9 +125,12 @@ table {
     background-color: #edf5e1;
 }
 
-
-
-
+#account-table .accounts:hover {
+    background-color: #edf5e1;
+}
+#category-table .categories:hover {
+    background-color: #edf5e1;
+}
 #transaction-filter {
     border-radius: 5px 5px;
     background-color: #FDFDFD;

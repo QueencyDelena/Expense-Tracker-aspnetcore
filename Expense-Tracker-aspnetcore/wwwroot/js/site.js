@@ -38,10 +38,9 @@
 }
 
 function TransactionPageScript() {
-
-
+    /*Filter----------------*/
     $("#chk-all-account").click(function () {
-        $('.select-account').each(function () {
+        $('.chk-account').each(function () {
             if ($(this).is(":checked")) {
                 $(this).prop('checked', false);
             }
@@ -78,10 +77,10 @@ function TransactionPageScript() {
     /*Header-Button Toggle*/
     $(".transactions-table .select-transaction").change(function () {
         if ($('.transactions-table .select-transaction:checked').length > 0) {
-            $('.header-buttons button').attr("hidden", false);
+            $("#header-buttons").css("visibility", "visible")
         }
         else {
-            $('.header-buttons button').attr("hidden", true);
+            $("#header-buttons").css("visibility", "hidden")
         }
         if ($('.transactions-table .select-transaction:checked').length == $('.select-transaction').length) {
             $('.transactions-table .select-all').prop('checked', this.checked);
@@ -94,17 +93,17 @@ function TransactionPageScript() {
     $(".transactions-table .cancel-select").click(function () {
         $('.transactions-table .select-transaction').prop('checked', false);
         $('.transactions-table .select-all').prop('checked', false);
-        $('.header-buttons button').attr("hidden", true);
+        $("#header-buttons").css("visibility", "hidden")
 
     });
     $(".transactions-table .select-all").click(function () {
         if ($(this).is(":checked")) {
             $('.select-transaction').prop('checked', this.checked);
-            $('.header-buttons button').attr("hidden", false);
+            $("#header-buttons").css("visibility", "visible")
         }
         else {
             $('.select-transaction').prop('checked', false);
-            $('.header-buttons button').attr("hidden", true);
+            $("#header-buttons").css("visibility", "hidden")
         }
     });
 
@@ -173,47 +172,43 @@ function TransactionPageScript() {
 }
 
 function AccountTableScript() {
-    
-           
-    $(".select-accounts").change(function () {
-        if ($('.select-accounts:checked').length > 0) {
+    /*Header-Button Toggle*/
+    $("#account-table .select-account").change(function () {
+        if ($('#account-table .select-account:checked').length > 0) {
             $("#header-buttons").css("visibility", "visible")
         }
         else {
             $("#header-buttons").css("visibility", "hidden")
         }
-
-        if ($('.select-accounts:checked').length == $('.select-accounts').length) {
-            $('.select-all-accounts').prop('checked', this.checked);
+        if ($('#account-table .select-account:checked').length == $('.select-account').length) {
+            $('#account-table .select-all-accounts').prop('checked', this.checked);
         }
         else {
-            $('.select-all-accounts').prop('checked', false);
+            $('#account-table .select-all-accounts').prop('checked', false);
         }
-
     });
 
-    $(".cancel-select, .select-all-accounts").click(function () {
-        var $this = $(this);
-        if ($this.hasClass("cancel-select")) {
-            $('.select-accounts').prop('checked', false);
-            $('.select-all-accounts').prop('checked', false);
+    $("#account-table .cancel-select").click(function () {
+        $('#account-table .select-transaction').prop('checked', false);
+        $('#account-table .select-all').prop('checked', false);
+        $("#header-buttons").css("visibility", "hidden")
+
+    });
+    $("#account-table .select-all-accounts").click(function () {
+        if ($(this).is(":checked")) {
+            $('.select-account').prop('checked', this.checked);
+            $("#header-buttons").css("visibility", "visible")
+        }
+        else {
+            $('.select-account').prop('checked', false);
             $("#header-buttons").css("visibility", "hidden")
-
-        }
-        else if ($this.hasClass("select-all-accounts")) {
-            if ($(this).is(":checked")) {
-                $('.select-accounts').prop('checked', this.checked);
-                $("#header-buttons ").css("visibility", "visible")
-            }
-            else {
-                $('.select-accounts').prop('checked', false);
-                $("#header-buttons ").css("visibility", "hidden")
-            }
         }
     });
+
+
 
     /* Select Accounts------------------------*/
-    $(".select-accounts").click(function (e) {
+    $(".select-account").click(function (e) {
         e.stopPropagation();
     });
     $(".accounts-menu").click(function (e) {
@@ -244,8 +239,8 @@ function AccountTableScript() {
         var url = "/Accounts/Edit";
 
         $.get(url + '/' + id, function (data) {
-            $('#accounts-page-container').html(data);
-            $('#accounts-page-modal').modal('show');
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
         });
     });
 
@@ -260,7 +255,7 @@ function AccountTableScript() {
         var form = $('#__AjaxAntiForgeryForm');
         var token = $('input[name="__RequestVerificationToken"]', form).val();
         var idList = new Array();
-        $('.select-accounts').each(function () {
+        $('.select-account').each(function () {
             if ($(this).is(":checked")) {
                 idList.push($(this).parent().parent().attr('data-id'));
             }
@@ -276,10 +271,10 @@ function AccountTableScript() {
 function CategoryTableScript() {
     $(".select-category").change(function () {
         if ($('.select-category:checked').length > 0) {
-            $('#header-buttons button').attr("hidden", false);
+            $("#header-buttons").css("visibility", "visible")
         }
         else {
-            $('#header-buttons button').attr("hidden", true);
+            $("#header-buttons").css("visibility", "hidden")
         }
 
 
@@ -297,16 +292,16 @@ function CategoryTableScript() {
         if ($this.hasClass("cancel-select")) {
             $('.select-category').prop('checked', false);
             $('.select-all-category').prop('checked', false);
-            $('#header-buttons button').attr("hidden", true);
+            $("#header-buttons").css("visibility", "hidden")
         }
         else if ($this.hasClass("select-all-category")) {
             if ($(this).is(":checked")) {
                 $('.select-category').prop('checked', this.checked);
-                $('#header-buttons button').attr("hidden", false);
+                $("#header-buttons").css("visibility", "visible")
             }
             else {
                 $('.select-category').prop('checked', false);
-                $('#header-buttons button').attr("hidden", true);
+                $("#header-buttons").css("visibility", "hidden")
             }
         }
     });
@@ -324,12 +319,12 @@ function CategoryTableScript() {
 
 
     /* Create category------------------------*/
-    $('.create-account').click(function () {
-        var url = "/category/Create"; // the url to the controller
+    $('.create-category').click(function () {
+        var url = "/Categories/Create"; // the url to the controller
         $.get(url, function (data) {
-            $('#category-page-container').html(data);
-            $('#category-page-modal').modal('show');
-            $.validator.unobtrusive.parse("#category-page-modal");
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
+            $.validator.unobtrusive.parse("#modal");
         });
     });
 
@@ -340,11 +335,11 @@ function CategoryTableScript() {
             return false;
         }
         var id = $(this).attr('data-id');
-        var url = "/category/Edit";
+        var url = "/Categories/Edit";
 
         $.get(url + '/' + id, function (data) {
-            $('#category-page-container').html(data);
-            $('#category-page-modal').modal('show');
+            $('#modal-container').html(data);
+            $('#modal').modal('show');
         });
     });
 
@@ -365,7 +360,7 @@ function CategoryTableScript() {
             }
         });
         jQuery.ajaxSettings.traditional = true
-        $.post("/category/Delete", { __RequestVerificationToken: token, ids: idList }, function (result) {
+        $.post("/Categories/Delete", { __RequestVerificationToken: token, ids: idList }, function (result) {
             location.reload();
         });
 
@@ -404,8 +399,10 @@ function FilterScript() {
 }
 
 $(document).ready(function () {
+
+
     /*TRANSACTIONS PAGE ====================================*/
-    
+
     TransactionPageScript();
 
     FilterScript();
@@ -415,11 +412,19 @@ $(document).ready(function () {
     CategoryTableScript();
 });
 
-
-$(".nav .nav-link").on("click", function () {
-    $(".nav").find(".active").removeClass("active");
+$(".nav-item a").each(function () {
+    $(this).removeClass("active");
+});
+$('a[href*="' + location.pathname.replace("/", "") + '"]').each(function () {
     $(this).addClass("active");
 });
+
+//$(".nav-item").on("click", function () {
+//    $(".nav-item a").each(function () {
+//        $(this).removeProp("active");
+//    });
+//    $(this).prop("active");
+//});
 
 if (document.getElementById("Dashboard") != null) {
     loadDashboardSript();

@@ -43,7 +43,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
 
             var accountSummary =
                 (from t in _context.Transactions.Include(t => t.Account).Include(t => t.Category)
-                 where t.PostDate >= dateFrom && t.PostDate <= dateTo
+                 where t.PostDate.Date >= dateFrom.Date && t.PostDate.Date <= dateTo
                  group t by t.Account.Name into g
                  select new Summary()
                  {
@@ -57,7 +57,7 @@ namespace Expense_Tracker_aspnetcore.Controllers
 
             var categorySummary =
                 (from t in _context.Transactions.Include(t => t.Account).Include(t => t.Category)
-                 where t.PostDate >= dateFrom && t.PostDate <= dateTo
+                 where t.PostDate.Date >= dateFrom.Date && t.PostDate.Date <= dateTo
                  group t by t.Category.Name into g
                  select new Summary()
                  {

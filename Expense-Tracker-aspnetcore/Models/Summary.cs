@@ -19,6 +19,7 @@ namespace Expense_Tracker_aspnetcore.Models
 
         public string Key { get; set; }
 
-        public float Amount { get; set; }
+        [DataType(DataType.Currency)]
+        public float Amount { get; set; } = 0;
     }
 }

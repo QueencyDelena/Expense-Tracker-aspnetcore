@@ -7,7 +7,7 @@
 <div id="transaction-table" class=" mt-1">
     <div class="d-flex flex-column">
         <table class="table table-borderless transactions-table border border-secondary">
-            <thead class="bg-success">
+            <thead class="bg-primary">
                 <tr>
                     <th class="p-2 align-middle text-center">
                         @if (Transactions.Count != 0)
@@ -16,10 +16,7 @@
                         }
                     </th>
                     <th colspan="2" class="p-0 align-middle flex-column-reverse">
-                        <div class="header-buttons">
-                            <button class="delete-selected-transactions btn button btn-danger btn-sm p-0 px-1" hidden><i class="fa fa-trash"></i> Delete </button>
-                            <button class="cancel-select btn button btn-dark btn-sm p-0 px-1" hidden> Unselect All</button>
-                        </div>
+                        
                     </th>
                 </tr>
             </thead>
@@ -101,7 +98,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <h3>Are you sure you want to delete selected transaction?</h3>
+                <h4>Are you sure you want to delete selected transaction?</h4>
             </div>
             <div class="modal-footer">
                 <button value="Delete" class="btn btn-danger confirm-delete">Delete</button>

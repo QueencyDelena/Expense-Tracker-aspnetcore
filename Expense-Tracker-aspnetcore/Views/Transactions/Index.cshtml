@@ -9,19 +9,27 @@
     var Transactions = Model.Transactions;
 }
 <div id="transaction-page" class="px-5">
-    <div class="container row my-3">
-        <header class="col"><h3>Transactions</h3></header>
-        <div class="col d-flex flex-row justify-content-end my-2">
-            <div class="dropstart">
-                <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-filter"></i>
-                </button>
-                <div class="dropdown-menu dropstart">
-                    @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
-                </div>
+    <div class="container">
+        <h3 class="my-3">Transactions</h3>
+        <div class="d-flex flex-row justify-content-between my-2">
+            <div id="header-buttons" style="visibility: hidden;" class="d-flex justify-content-start">
+                <button class="delete-selected-transactions btn button btn-danger btn-sm"><i class="fa fa-trash"></i> Delete </button>
+                <button class="cancel-select btn button btn-dark btn-sm" > Unselect All</button>
             </div>
-            <button class="btn btn-sm btn-primary create-transaction" data-toggle="modal" data-target="#createModal" asp-action="Create">+</button>
+            
+            <div class="d-flex flex-row">
+                <div class="dropstart">
+                    <button class="btn btn-sm btn-dark dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-solid fa-filter"></i>
+                    </button>
+                    <div class="dropdown-menu dropstart">
+                        @await Html.PartialAsync("~/Views/PartialViews/_TransactionFilters.cshtml", Model)
+                    </div>
+                </div>
+                <button class="btn btn-primary btn-sm create-transaction" data-toggle="modal" asp-action="Create">+</button>
+            </div>
         </div>
+
 
         @await Html.PartialAsync("~/Views/PartialViews/_TransactionTable.cshtml", Model)
 
@@ -43,5 +51,4 @@
             </div>
         </div>
     </div>
-
 </div>
